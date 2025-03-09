@@ -169,13 +169,12 @@ const setElems = (el: HTMLElement) => {
 const shelfComp = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
-  if (!import.meta.client) {
-    console.log('NOT RUNNING ON CLIENT (SOMEHOW)');
+  if (import.meta.server) {
+    console.log('Running on server');
     return
   }
   if (import.meta.client) {
-    console.log('Running on client)');
-    return
+    console.log('Running on client');
   }
   console.log("hey at least this works right")
   loadShelves();
