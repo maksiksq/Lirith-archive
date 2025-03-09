@@ -170,16 +170,7 @@ onMounted(() => {
   if (import.meta.client) {
     console.log('Running on client');
   }
-  console.log("hey at least this works right")
-  loadShelves();
 
-  // defs for elems manually for now
-  // @ts-ignore
-  const shelfWrapper = ref<HTMLElement | null>(null);
-  if (shelfWrapper) trackedElems.push(shelfWrapper);
-
-
-  // window.addEventListener('resize', resizeCanvas)
 })
 </script>
 
