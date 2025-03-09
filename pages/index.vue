@@ -23,7 +23,9 @@ watch(shelfElem, (newVal) => {
 
 async function loadShelves(): Promise<any> {
   console.log('Loading shelves...')
-
+  if (!import.meta.client) {
+    return;
+  }
   // Take the shelf from the DB, turn it into a real, tangible element
   const _string = await getShelf(1);
   const _div: HTMLElement = document.createElement('div');
@@ -167,8 +169,8 @@ const setElems = (el: HTMLElement) => {
 const shelfComp = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
-  if (import.meta.client) {
-    console.log('Running on client');
+  if (!import.meta.client) {
+    console.log('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
   }
   console.log("hey at least this works right")
