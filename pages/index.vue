@@ -39,8 +39,7 @@ async function loadShelves(): Promise<any> {
 }
 
 async function handleTest(): Promise<void> {
-  console.log('culprit found')
-  // await saveShelf(trackedElems[0], 1);
+  await saveShelf(trackedElems[0], 1);
 }
 
 const scale = ref(1)
