@@ -1,6 +1,11 @@
 import {type IDBPDatabase, openDB} from "idb";
 // this is a helper file for IndexDB cause if I do that in that huge component too im gonna die
 
+if (!process.client) {
+    console.warn("IndexedDB is not available on the server");
+}
+
+
 const DB_NAME = "dataDB";
 const STORE_NAME = "shelves";
 

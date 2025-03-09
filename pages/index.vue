@@ -197,6 +197,8 @@ onMounted(async () => {
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
+    <button @click="handleTest"></button>
+    <button @click="loadShelves"></button>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
     <Shelf ref="shelfComp" :items="items"></Shelf>
   </div>
