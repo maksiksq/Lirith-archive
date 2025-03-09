@@ -21,7 +21,27 @@ watch(shelfElem, (newVal) => {
   }
 });
 
+async function loadShelves(): Promise<any> {
+  console.log('Loading shelves...')
 
+  // Take the shelf from the DB, turn it into a real, tangible element
+  const _string = await getShelf(1);
+  const _div: HTMLElement = document.createElement('div');
+  // here we write down the element as a string (indexedDB can't store HTML
+  // elems but we need it anyways so it's a good thing), then we send it to
+  // the template's v-html which cooks magic, and we also write down the div
+  // as a ref
+  elem1Content.value = _string.html;
+  _div.innerHTML = _string.html;
+  // extract the child to prevent an unintended wrapper
+  // shelves.value[0] = _div;
+  // trackedElems.push(_div)
+}
+
+async function handleTest(): Promise<void> {
+  console.log('culprit found')
+  // await saveShelf(trackedElems[0], 1);
+}
 
 const scale = ref(1)
 const translateX = ref(0)
@@ -152,6 +172,7 @@ onMounted(() => {
     console.log('Running on client');
   }
   console.log("hey at least this works right")
+  loadShelves();
 
   // defs for elems manually for now
   // @ts-ignore
@@ -171,6 +192,8 @@ onMounted(() => {
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
+    <button @click="handleTest"></button>
+    <button @click="loadShelves"></button>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
     <Shelf ref="shelfComp" :items="items"></Shelf>
   </div>
