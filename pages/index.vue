@@ -168,7 +168,7 @@ const setElems = (el: HTMLElement) => {
 
 const shelfComp = ref<HTMLCanvasElement | null>(null);
 
-onMounted(() => {
+onMounted(async () => {
   if (!import.meta.client) {
     console.log('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
