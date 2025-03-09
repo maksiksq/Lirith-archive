@@ -179,7 +179,7 @@ onMounted(() => {
   if (shelfWrapper) trackedElems.push(shelfWrapper);
 
 
-  window.addEventListener('resize', resizeCanvas)
+  // window.addEventListener('resize', resizeCanvas)
 })
 </script>
 
