@@ -25,7 +25,7 @@ export async function saveShelf(shelf: any, id: number) {
     const shelfButString = shelf.outerHTML;
     console.log(shelfButString);
     const db: IDBPDatabase<unknown> = await initDB();
-    await db.put(STORE_NAME, { html: shelfButString, id })
+    await db.put(STORE_NAME, { contents: shelf, id })
 }
 
 export async function getShelf(id: number) {

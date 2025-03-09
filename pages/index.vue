@@ -6,7 +6,20 @@ import { useRuntimeConfig } from '#imports';
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
 
-const shelves: any = ref([])
+const shelfData: any = ref({
+  shelf1: {
+    isRad: false,
+    isIdkSomething: false,
+  },
+  shelf2: {
+    isRad: false,
+    isIdkSomething: false,
+  },
+  shelf3: {
+    isRad: false,
+    isIdkSomething: false,
+  }
+})
 
 const elem1Content = ref<string>('')
 const shelfElem = ref<HTMLElement | null>(null)
@@ -49,10 +62,9 @@ async function loadShelves(): Promise<any> {
 }
 
 async function handleTest(): Promise<void> {
-  console.log('Test...')
-  console.log(trackedElems[1])
-  console.log('Test...')
-  await saveShelf(trackedElems[1], 3);
+  await saveShelf({
+    isRad: false,
+  }, 1);
 }
 
 const scale = ref(1)
@@ -201,6 +213,9 @@ onMounted(async () => {
   resizeCanvas()
   window.addEventListener('resize', resizeCanvas)
 })
+
+// future: Do not send the element itself to the db,
+// instead just the data and render it all here live
 </script>
 
 
@@ -213,7 +228,7 @@ onMounted(async () => {
     <button @click="handleTest"></button>
     <button @click="loadShelves"></button>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
-    <Shelf ref="shelfComp" :items="items"></Shelf>
+    <Shelf v-for="shelf in shelfData" ref="shelfComp" :items="items"></Shelf>
   </div>
 </template>
 
