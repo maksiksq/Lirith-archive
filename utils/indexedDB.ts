@@ -30,7 +30,7 @@ export async function saveShelf(shelf: any, id: number) {
 
 export async function getShelf(id: number) {
     const db: IDBPDatabase<unknown> = await initDB();
-    return  db.get(STORE_NAME, id)
+    return await db.get(STORE_NAME, id)
 }
 
 export async function getAllShelves() {
