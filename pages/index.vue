@@ -6,6 +6,10 @@ import { useRuntimeConfig } from '#imports';
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
 
+const shelves: any = ref([])
+
+const elem1Content = ref<string>('')
+const shelfElem = ref<HTMLElement | null>(null)
 
 
 const scale = ref(1)
@@ -136,17 +140,7 @@ onMounted(() => {
   if (import.meta.client) {
     console.log('Running on client');
   }
-  console.log("hey at least this works right")
-  loadShelves();
 
-  // defs for elems manually for now
-  // @ts-ignore
-  const shelfWrapper: HTMLElement = shelfComp.value?.shelfWrapper;
-  if (shelfWrapper) trackedElems.push(shelfWrapper);
-
-
-  resizeCanvas()
-  window.addEventListener('resize', resizeCanvas)
 })
 </script>
 
