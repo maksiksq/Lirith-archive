@@ -21,13 +21,17 @@ watch(shelfElem, (newVal) => {
   }
 });
 
+interface ShelfData {
+  html: string;
+}
+
 async function loadShelves(): Promise<any> {
   console.log('Loading shelves...')
   if (!import.meta.client) {
     return;
   }
   // Take the shelf from the DB, turn it into a real, tangible element
-  const _string = ref<Object | null>(await getShelf(1));
+  const _string = ref<ShelfData | null>(await getShelf(1));
   if (!_string.value) {
     _string.value = {html: "<div class='hollow'></div>"};
     console.log(_string.value);
@@ -48,7 +52,7 @@ async function handleTest(): Promise<void> {
   console.log('Test...')
   console.log(trackedElems[1])
   console.log('Test...')
-  await saveShelf(trackedElems[1], 1);
+  await saveShelf(trackedElems[1], 3);
 }
 
 const scale = ref(1)
