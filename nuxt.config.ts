@@ -6,8 +6,10 @@ export default defineNuxtConfig({
   ssr: false,
 
   vite: {
-    optimizeDeps: {
-      exclude: ["idb"]
+    build: {
+      rollupOptions: {
+        external: ['idb']
+      }
     },
     // Better support for Tauri CLI output
     clearScreen: false,
