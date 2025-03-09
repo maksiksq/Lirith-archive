@@ -35,7 +35,7 @@ watch(shelfElem, (newVal) => {
 });
 
 interface ShelfData {
-  html: string;
+  contents: any;
 }
 
 async function loadShelves(): Promise<any> {
@@ -44,21 +44,17 @@ async function loadShelves(): Promise<any> {
     return;
   }
   // Take the shelf from the DB, turn it into a real, tangible element
-  const _string = ref<ShelfData | null>(await getShelf(1));
-  if (!_string.value) {
-    _string.value = {html: "<div class='hollow'></div>"};
-    console.log(_string.value);
+  const shelf = ref<ShelfData | null>(await getShelf(1));
+  if (!shelf.value) {
+    shelf.value = {contents: {
+        shelf0: {
+          isRad: false,
+          isIdkSomething: false,
+        },
+      }};
   }
-  const _div: HTMLElement = document.createElement('div');
-  // here we write down the element as a string (indexedDB can't store HTML
-  // elems but we need it anyways so it's a good thing), then we send it to
-  // the template's v-html which cooks magic, and we also write down the div
-  // as a ref
-  elem1Content.value = _string.value.html;
-  _div.innerHTML = _string.value.html;
-  // extract the child to prevent an unintended wrapper
-  // shelves.value[0] = _div;
-  // trackedElems.push(_div)
+
+
 }
 
 async function handleTest(): Promise<void> {
