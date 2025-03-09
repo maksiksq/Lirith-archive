@@ -173,6 +173,10 @@ onMounted(() => {
     console.log('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
   }
+  if (import.meta.client) {
+    console.log('Running on client)');
+    return
+  }
   console.log("hey at least this works right")
   loadShelves();
 
