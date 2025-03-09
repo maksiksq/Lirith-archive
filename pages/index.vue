@@ -27,21 +27,28 @@ async function loadShelves(): Promise<any> {
     return;
   }
   // Take the shelf from the DB, turn it into a real, tangible element
-  const _string = await getShelf(1);
+  const _string = ref<Object | null>(await getShelf(1));
+  if (!_string.value) {
+    _string.value = {html: "<div class='hollow'></div>"};
+    console.log(_string.value);
+  }
   const _div: HTMLElement = document.createElement('div');
   // here we write down the element as a string (indexedDB can't store HTML
   // elems but we need it anyways so it's a good thing), then we send it to
   // the template's v-html which cooks magic, and we also write down the div
   // as a ref
-  elem1Content.value = _string.html;
-  _div.innerHTML = _string.html;
+  elem1Content.value = _string.value.html;
+  _div.innerHTML = _string.value.html;
   // extract the child to prevent an unintended wrapper
   // shelves.value[0] = _div;
   // trackedElems.push(_div)
 }
 
 async function handleTest(): Promise<void> {
-  await saveShelf(trackedElems[0], 1);
+  console.log('Test...')
+  console.log(trackedElems[1])
+  console.log('Test...')
+  await saveShelf(trackedElems[1], 1);
 }
 
 const scale = ref(1)
@@ -176,14 +183,16 @@ onMounted(async () => {
   if (import.meta.client) {
     console.log('Running on client)');
   }
-  console.log("hey at least this works right")
   await loadShelves();
 
+  console.log("he")
   // defs for elems manually for now
   // @ts-ignore
   const shelfWrapper: HTMLElement = shelfComp.value?.shelfWrapper;
   if (shelfWrapper) trackedElems.push(shelfWrapper);
+  console.log(trackedElems)
 
+  console.log("hee")
 
   resizeCanvas()
   window.addEventListener('resize', resizeCanvas)
