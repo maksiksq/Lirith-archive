@@ -179,7 +179,6 @@ onMounted(() => {
   if (shelfWrapper) trackedElems.push(shelfWrapper);
 
 
-  resizeCanvas()
   window.addEventListener('resize', resizeCanvas)
 })
 </script>
@@ -190,9 +189,7 @@ onMounted(() => {
        @mousedown="startPan"
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
-    <client-only>
-      <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
-    </client-only>
+    <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
     <button @click="handleTest"></button>
     <button @click="loadShelves"></button>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
