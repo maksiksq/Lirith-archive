@@ -20,6 +20,7 @@ watch(shelfElem, (newVal) => {
 });
 
 async function loadShelves(): Promise<any> {
+  if (!process.client) return;
   console.log('Loading shelves...')
 
   // Take the shelf from the DB, turn it into a real, tangible element
