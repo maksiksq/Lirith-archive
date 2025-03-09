@@ -175,7 +175,7 @@ onMounted(() => {
 
   // defs for elems manually for now
   // @ts-ignore
-  const shelfWrapper: HTMLElement = shelfComp.value?.shelfWrapper;
+  const shelfWrapper = ref<HTMLElement | null>(null);
   if (shelfWrapper) trackedElems.push(shelfWrapper);
 
 
