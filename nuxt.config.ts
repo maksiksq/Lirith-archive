@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
 
+  build: {
+    transpile: ["idb"]
+  },
 
   vite: {
     // Better support for Tauri CLI output
