@@ -177,7 +177,7 @@ onMounted(async () => {
     console.log('Running on client)');
   }
   console.log("hey at least this works right")
-  loadShelves();
+  await loadShelves();
 
   // defs for elems manually for now
   // @ts-ignore
