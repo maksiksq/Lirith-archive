@@ -23,19 +23,19 @@ watch(shelfElem, (newVal) => {
 
 async function loadShelves(): Promise<any> {
   console.log('Loading shelves...')
-
-  // Take the shelf from the DB, turn it into a real, tangible element
-  const _string = await getShelf(1);
-  const _div: HTMLElement = document.createElement('div');
-  // here we write down the element as a string (indexedDB can't store HTML
-  // elems but we need it anyways so it's a good thing), then we send it to
-  // the template's v-html which cooks magic, and we also write down the div
-  // as a ref
-  elem1Content.value = _string.html;
-  _div.innerHTML = _string.html;
-  // extract the child to prevent an unintended wrapper
-  // shelves.value[0] = _div;
-  // trackedElems.push(_div)
+  //
+  // // Take the shelf from the DB, turn it into a real, tangible element
+  // const _string = await getShelf(1);
+  // const _div: HTMLElement = document.createElement('div');
+  // // here we write down the element as a string (indexedDB can't store HTML
+  // // elems but we need it anyways so it's a good thing), then we send it to
+  // // the template's v-html which cooks magic, and we also write down the div
+  // // as a ref
+  // elem1Content.value = _string.html;
+  // _div.innerHTML = _string.html;
+  // // extract the child to prevent an unintended wrapper
+  // // shelves.value[0] = _div;
+  // // trackedElems.push(_div)
 }
 
 async function handleTest(): Promise<void> {
