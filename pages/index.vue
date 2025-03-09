@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {ref, onMounted, computed} from 'vue'
-import Shelf from '../components/Shelf.vue';
+import Shelf from '~/components/Shelf.vue';
+
+import { useRuntimeConfig } from '#imports';
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
 
@@ -20,7 +22,6 @@ watch(shelfElem, (newVal) => {
 });
 
 async function loadShelves(): Promise<any> {
-  if (!process.client) return;
   console.log('Loading shelves...')
 
   // Take the shelf from the DB, turn it into a real, tangible element
@@ -166,6 +167,9 @@ const setElems = (el: HTMLElement) => {
 const shelfComp = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
+  if (import.meta.client) {
+    console.log('Running on client');
+  }
   console.log("hey at least this works right")
   loadShelves();
 
