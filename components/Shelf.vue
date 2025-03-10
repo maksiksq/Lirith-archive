@@ -59,7 +59,7 @@ onMounted(() => {
   .shelf {
     position: absolute;
     background-color: #161616;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
 
     width: 75px;
     height: 75px;
@@ -75,7 +75,17 @@ onMounted(() => {
         cursor: grab;
         user-select: none;
       }
+
+      .shelf-item:nth-child(1) {
+        border-radius: 8px 8px 0 0;
+      }
+
+      .shelf-item:last-child {
+        border-radius: 0 0 8px 8px;
+      }
     }
+
+
   }
 }
 </style>

@@ -228,15 +228,16 @@ onMounted(async () => {
 
 
 <template>
+  <div class="buttonWrap">
+    <button @click="handleTest">add crimes</button>
+    <button @click="loadShelves">initialize crimes</button>
+  </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
-    <div class="buttonWrap">
-      <button @click="handleTest">add crimes</button>
-      <button @click="loadShelves">initialize crimes</button>
-    </div>
+
 
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
     <Shelf v-for="shelf in shelfData" ref="shelves" :items="items"></Shelf>
@@ -249,7 +250,11 @@ onMounted(async () => {
 .buttonWrap {
   display: flex;
   position: absolute;
+  z-index: 99999;
   button {
+    cursor: pointer;
+
+    background-color: white;
     font-weight: bold;
     color: black;
     width: 150px;
