@@ -6,6 +6,8 @@ import { useRuntimeConfig } from '#imports';
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
 
+const shelves = ref([])
+
 const shelfData: any = ref({
   shelf1: {
     isRad: false,
@@ -46,7 +48,7 @@ async function loadShelves(): Promise<any> {
   // Take the shelf from the DB, turn it into a real, tangible element
   //
   // Also, first take a bunch of eggs and sugar, whip the eggs and sugar
-  // for 7 minutes until they turn into a singular mass
+  // for about 7 minutes until they turn into a singular mass
   const shelf = ref<ShelfData | null>(await getShelf(1));
   if (!shelf.value) {
     shelf.value = {contents: {
@@ -151,17 +153,24 @@ const trackedElems: Array<any> = reactive([])
 const screenX = ref(450)
 const screenY = ref(450)
 
-function updatePositions() {
+interface ShelfObject {
+  shelfWrapper: HTMLElement | null;
+}
+
+async function updatePositions() {
+  await nextTick();
+  console.log(shelves.value)
+
   const offsetX = ref(0)
   const offsetY = ref(0)
-  trackedElems.forEach((el: HTMLElement, i) => {
-    if (!el) return;
 
-    // context: v-html always puts the thing in a wrapper
-    // to avoid that we use the child
-    const elChild = el.childNodes[0] as HTMLElement;
-    if (!elChild) return;
-    console.log(elChild)
+  shelves.value.forEach((elObj: ShelfObject) => {
+    const el: HTMLElement | null = elObj.shelfWrapper
+
+    if (!el) {
+      console.log("Something went horribly wrong. Run. Burn. Destroy.")
+      return
+    };
 
     const worldX = worldElementPos.value.x + offsetX.value
     const worldY = worldElementPos.value.y + offsetY.value
@@ -181,9 +190,6 @@ const items = ref([
   {name: "Test", id: 0},
   {name: "Teest", id: 1},
   {name: "Teeesst", id: 2},
-  {name: "Teeesst", id: 3},
-  {name: "Teeeeesst", id: 4},
-  {name: "Teeeeeesst", id: 5}
 ],)
 
 // in the future i can do it for v-fors
@@ -227,22 +233,30 @@ onMounted(async () => {
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
-    <button @click="handleTest"></button>
-    <button @click="loadShelves"></button>
+    <div class="buttonWrap">
+      <button @click="handleTest">add crimes</button>
+      <button @click="loadShelves">initialize crimes</button>
+    </div>
+
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
-    <Shelf v-for="shelf in shelfData" ref="shelfComp" :items="items"></Shelf>
+    <Shelf v-for="shelf in shelfData" ref="shelves" :items="items"></Shelf>
   </div>
 </template>
 
 
 <style scoped lang="scss">
 // temp btn
-button {
-  position: relative;
-  width: 150px;
-  height: 100px;
-}
+.buttonWrap {
+  display: flex;
+  position: absolute;
+  button {
+    font-weight: bold;
+    color: black;
+    width: 150px;
+    height: 100px;
+  }
 
+}
 
 // tbh i should use togglable classes so much more instead of inline styles
 .grabbing {
