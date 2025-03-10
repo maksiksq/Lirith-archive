@@ -28,8 +28,8 @@ watch(shelfElem, (newVal) => {
   if (newVal) {
     const elChild = newVal.firstElementChild as HTMLElement;
     if (elChild) {
-      trackedElems.push(elChild); // Now tracking the actual DOM element
-      updatePositions(); // Apply transformations after it's mounted
+      trackedElems.push(elChild);
+      updatePositions();
     }
   }
 });
@@ -44,6 +44,9 @@ async function loadShelves(): Promise<any> {
     return;
   }
   // Take the shelf from the DB, turn it into a real, tangible element
+  //
+  // Also, first take a bunch of eggs and sugar, whip the eggs and sugar
+  // for 7 minutes until they turn into a singular mass
   const shelf = ref<ShelfData | null>(await getShelf(1));
   if (!shelf.value) {
     shelf.value = {contents: {
@@ -177,7 +180,10 @@ function updatePositions() {
 const items = ref([
   {name: "Test", id: 0},
   {name: "Teest", id: 1},
-  {name: "Teesst", id: 2}
+  {name: "Teeesst", id: 2},
+  {name: "Teeesst", id: 3},
+  {name: "Teeeeesst", id: 4},
+  {name: "Teeeeeesst", id: 5}
 ],)
 
 // in the future i can do it for v-fors
