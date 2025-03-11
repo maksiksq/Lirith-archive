@@ -8,16 +8,31 @@ import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/u
 
 const shelves = ref([])
 
+const size = ref(75)
+const gridSize = ref(75)
+
 const shelfData: any = ref({
   shelf1: {
+    x: gridSize.value,
+    y: gridSize.value*1,
     isRad: false,
     isIdkSomething: false,
   },
   shelf2: {
+    x: gridSize.value,
+    y: gridSize.value*2,
     isRad: false,
     isIdkSomething: false,
   },
   shelf3: {
+    x: gridSize.value,
+    y: gridSize.value*3,
+    isRad: false,
+    isIdkSomething: false,
+  },
+  shelf4: {
+    x: gridSize.value,
+    y: gridSize.value*4,
     isRad: false,
     isIdkSomething: false,
   }
@@ -75,8 +90,6 @@ const isPanning = ref(false)
 const startX = ref(0)
 const startY = ref(0)
 
-const size = ref(75)
-
 const canvas = ref<HTMLCanvasElement | null>(null)
 
 const drawGrid = () => {
@@ -86,22 +99,22 @@ const drawGrid = () => {
   const {width, height} = canvas.value
   ctx.clearRect(0, 0, width, height)
 
-  const gridSize = size.value * scale.value
+  gridSize.value = size.value * scale.value
 
-  const offsetX = translateX.value % gridSize
-  const offsetY = translateY.value % gridSize
+  const offsetX = translateX.value % gridSize.value
+  const offsetY = translateY.value % gridSize.value
 
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.lineWidth = 1
 
   ctx.beginPath()
 
-  for (let x = offsetX; x < width; x += gridSize) {
+  for (let x = offsetX; x < width; x += gridSize.value) {
     ctx.moveTo(x, 0)
     ctx.lineTo(x, height)
   }
 
-  for (let y = offsetY; y < height; y += gridSize) {
+  for (let y = offsetY; y < height; y += gridSize.value) {
     ctx.moveTo(0, y)
     ctx.lineTo(width, y)
   }
@@ -172,15 +185,13 @@ async function updatePositions() {
       return
     };
 
-    const worldX = worldElementPos.value.x + offsetX.value
-    const worldY = worldElementPos.value.y + offsetY.value
+    const worldX = worldElementPos.value.x + shelfData.value.x;
+    const worldY = worldElementPos.value.y + shelfData.value.y;
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
-
-    offsetX.value += 75;
   })
 }
 
