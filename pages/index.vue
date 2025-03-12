@@ -174,9 +174,6 @@ async function updatePositions() {
   await nextTick();
   console.log(shelves.value)
 
-  const offsetX = ref(0)
-  const offsetY = ref(0)
-
   shelves.value.forEach((elObj: ShelfObject) => {
     const el: HTMLElement | null = elObj.shelfWrapper
 
