@@ -145,7 +145,6 @@ const pan = (event: any) => {
   translateY.value = event.clientY - startY.value
   drawGrid()
 }
-//
 
 const stopPan = () => {
   isPanning.value = false
