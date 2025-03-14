@@ -13,24 +13,28 @@ const gridSize = ref(75)
 
 const shelfData: any = ref({
   shelf1: {
+    id: 1,
     x: gridSize.value,
     y: gridSize.value*1,
     isRad: false,
     isIdkSomething: false,
   },
   shelf2: {
+    id: 2,
     x: gridSize.value,
     y: gridSize.value*2,
     isRad: false,
     isIdkSomething: false,
   },
   shelf3: {
+    id: 3,
     x: gridSize.value,
     y: gridSize.value*3,
     isRad: false,
     isIdkSomething: false,
   },
   shelf4: {
+    id: 4,
     x: gridSize.value,
     y: gridSize.value*4,
     isRad: false,
@@ -51,7 +55,7 @@ watch(shelfElem, (newVal) => {
   }
 });
 
-interface ShelfData {
+interface ShelfDataInterface {
   contents: any;
 }
 
@@ -64,17 +68,16 @@ async function loadShelves(): Promise<any> {
   //
   // Also, first take a bunch of eggs and sugar, whip the eggs and sugar
   // for about 7 minutes until they turn into a singular mass
-  const shelf = ref<ShelfData | null>(await getShelf(1));
-  if (!shelf.value) {
-    shelf.value = {contents: {
+  const receivedShelfData = ref<ShelfDataInterface | null>(await getShelf(1));
+  if (!receivedShelfData.value) {
+    console.log("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
+    receivedShelfData.value = {contents: {
         shelf0: {
           isRad: false,
           isIdkSomething: false,
         },
       }};
   }
-
-
 }
 
 async function handleTest(): Promise<void> {
@@ -170,25 +173,55 @@ interface ShelfObject {
   shelfWrapper: HTMLElement | null;
 }
 
+interface ShelfDataObject {
+  id: number;
+  x: number;
+  y: number;
+  isRad: boolean;
+  isIdkSomething: boolean;
+}
+
 async function updatePositions() {
   await nextTick();
+  console.log("shelves")
   console.log(shelves.value)
+  console.log("shelves")
 
   shelves.value.forEach((elObj: ShelfObject) => {
     const el: HTMLElement | null = elObj.shelfWrapper
+    console.log(el)
 
     if (!el) {
       console.log("Something went horribly wrong. Run. Burn. Destroy.")
       return
-    };
+    }
 
-    const worldX = worldElementPos.value.x + shelfData.value.x;
-    const worldY = worldElementPos.value.y + shelfData.value.y;
+    // finds the shelf by its id, maybe I should've just used an array???
+    function findCurrentShelfData(id: number) {
+      const shelves = Object.values(shelfData.value) as ShelfDataObject[];
+      return shelves.find(shelf => shelf.id === id);
+    }
+
+    // am i doing this sloppily
+    const currentId: number = parseInt(el.id.at(-1) as string);
+    console.log(currentId)
+
+    const currentShelfData = findCurrentShelfData(currentId);
+
+    if (currentShelfData === undefined) {
+      console.log("something is wrong with the data, all hell broke loose.")
+      return;
+    }
+
+    const worldX = worldElementPos.value.x + currentShelfData.x;
+    const worldY = worldElementPos.value.y + currentShelfData.y;
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
+
+
   })
 }
 
@@ -248,7 +281,7 @@ onMounted(async () => {
 
 
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
-    <Shelf v-for="shelf in shelfData" ref="shelves" :items="items"></Shelf>
+    <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" :id="'shelf'+shelf.id.toString()" :items="items"></Shelf>
   </div>
 </template>
 
