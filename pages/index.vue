@@ -76,12 +76,11 @@ async function loadShelves(): Promise<any> {
         },
       ];
   }
-  console.log(receivedShelfData.value[0].contents);
-  console.log(receivedShelfData.value[0].id);
+  console.log(receivedShelfData.value);
 
   for (const shelf of receivedShelfData.value) {
+    console.log(1);
     shelfData.value.push(shelf.contents);
-    console.log(shelf);
     console.log(shelfData.value);
   }
 
@@ -274,6 +273,7 @@ onMounted(async () => {
     <button @click="handleTest">add crimes</button>
     <button @click="loadShelves">initialize crimes</button>
     <button @click="purge">clean the db</button>
+    <button @click="updatePositions">rerender</button>
   </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
