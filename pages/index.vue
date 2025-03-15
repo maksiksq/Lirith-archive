@@ -88,15 +88,26 @@ async function loadShelves(): Promise<any> {
   console.info('Loaded shelves!')
 }
 
+function findMaxShelfId(): number {
+  const ids:Array<number> = [];
+  shelfData.value.forEach((shelf: ShelfDataObjectInterface) => {
+    ids.push(shelf.id);
+  })
+  return Math.max(...ids);
+}
+
 async function handleTest(): Promise<void> {
-  await saveShelf(
-    {
-      id: 5,
-      x: gridSizeUnscaled.value,
-      y: gridSizeUnscaled.value*5,
-      isRad: false,
-      isIdkSomething: false,
-    });
+  const maxShelfId = findMaxShelfId();
+
+  const newShelf = {
+    id: maxShelfId+1,
+    x: gridSizeUnscaled.value,
+    y: gridSizeUnscaled.value*maxShelfId+1,
+    isRad: false,
+    isIdkSomething: false,
+  };
+
+  await saveShelf(newShelf);
 }
 
 const scale = ref(1)
