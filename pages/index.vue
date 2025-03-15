@@ -59,7 +59,7 @@ async function loadShelves(): Promise<any> {
   // for about 7 minutes until they turn into a singular mass
   const receivedShelfData = ref<ShelfDataInterface | null>(await getShelf(1));
   if (!receivedShelfData.value) {
-    console.log("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
+    console.warn("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
     receivedShelfData.value = {contents: [
         {
           isRad: false,
@@ -72,15 +72,14 @@ async function loadShelves(): Promise<any> {
 }
 
 async function handleTest(): Promise<void> {
-  await saveShelf([
+  await saveShelf(
     {
       id: 4,
       x: gridSize.value,
       y: gridSize.value*4,
       isRad: false,
       isIdkSomething: false,
-    }
-  ], 4);
+    });
 }
 
 const scale = ref(1)
@@ -168,7 +167,7 @@ interface ShelfObject {
   shelfWrapper: HTMLElement | null;
 }
 
-interface ShelfDataObject {
+interface ShelfDataObjectInterface {
   id: number;
   x: number;
   y: number;
@@ -178,22 +177,18 @@ interface ShelfDataObject {
 
 async function updatePositions() {
   await nextTick();
-  console.log("shelves")
-  console.log(shelves.value)
-  console.log("shelves")
 
   shelves.value.forEach((elObj: ShelfObject) => {
     const el: HTMLElement | null = elObj.shelfWrapper
-    console.log(el)
 
     if (!el) {
-      console.log("Something went horribly wrong. Run. Burn. Destroy.")
+      console.warn("Something went horribly wrong. Run. Burn. Destroy.")
       return
     }
 
     // finds the shelf by its id, maybe I should've just used an array???
     function findCurrentShelfData(id: number) {
-      const shelves = Object.values(shelfData.value) as ShelfDataObject[];
+      const shelves = Object.values(shelfData.value) as ShelfDataObjectInterface[];
       return shelves.find(shelf => shelf.id === id);
     }
 
@@ -202,7 +197,7 @@ async function updatePositions() {
     const currentShelfData = findCurrentShelfData(currentId);
 
     if (currentShelfData === undefined) {
-      console.info("something is wrong with the data, all hell broke loose.")
+      console.warn("something is wrong with the data, all hell broke loose.")
       return;
     }
 
@@ -229,7 +224,7 @@ const items = ref([
 
 onMounted(async () => {
   if (!import.meta.client) {
-    console.info('NOT RUNNING ON CLIENT (SOMEHOW)');
+    console.warn('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
   }
   if (import.meta.client) {

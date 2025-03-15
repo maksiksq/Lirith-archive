@@ -14,13 +14,20 @@ async function initDB() {
     });
 }
 
-export async function saveShelf(shelf: any, id: number) {
+interface ShelfDataObjectInterface {
+    id: number;
+    x: number;
+    y: number;
+    isRad: boolean;
+    isIdkSomething: boolean;
+}
+
+export async function saveShelf(shelf: ShelfDataObjectInterface) {
     if (!shelf) {
-        console.error("ALERT, one of the saved shelves is a null. Hide, run, burn, concieve anarchy, we're all doomed, the world will perish...")
+        console.error("ALERT, one of the saved shelves is a null. Hide, run, burn, conceive anarchy, we're all doomed, the world will perish...")
         return;
     }
-    const shelfButString = shelf.outerHTML;
-    console.log(shelfButString);
+    const id = shelf.id;
     const db: IDBPDatabase<unknown> = await initDB();
     await db.put(STORE_NAME, { contents: shelf, id })
 }
