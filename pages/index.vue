@@ -48,6 +48,11 @@ interface ShelfDataInterface {
   contents: any;
 }
 
+async function purge(): Promise<void> {
+  console.info("Purged the db")
+  await clearShelves();
+}
+
 async function loadShelves(): Promise<any> {
   console.info('Loading shelves...')
   if (!import.meta.client) {
@@ -57,26 +62,38 @@ async function loadShelves(): Promise<any> {
   //
   // Also, first take a bunch of eggs and sugar, whip the eggs and sugar
   // for about 7 minutes until they turn into a singular mass
-  const receivedShelfData = ref<ShelfDataInterface | null>(await getShelf(1));
+  const receivedShelfData = ref<Array<any> | null>(await getAllShelves());
   if (!receivedShelfData.value) {
     console.warn("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
-    receivedShelfData.value = {contents: [
+    receivedShelfData.value = [
         {
+          id: -999,
+          x: gridSize.value,
+          y: gridSize.value*4,
           isRad: false,
           isIdkSomething: false,
         },
-      ]};
+      ];
   }
-  console.log(receivedShelfData);
+  console.log(receivedShelfData.value[0].contents);
+  console.log(receivedShelfData.value[0].id);
+
+  for (const shelf of receivedShelfData.value) {
+    shelfData.value.push(shelf.contents);
+    console.log(shelf);
+    console.log(shelfData.value);
+  }
+
   console.info('Loaded shelves!')
 }
 
 async function handleTest(): Promise<void> {
   await saveShelf(
     {
-      id: 4,
+      id: 5,
+      currentScale: scale.value,
       x: gridSize.value,
-      y: gridSize.value*4,
+      y: gridSize.value*5,
       isRad: false,
       isIdkSomething: false,
     });
@@ -245,6 +262,7 @@ onMounted(async () => {
   <div class="buttonWrap">
     <button @click="handleTest">add crimes</button>
     <button @click="loadShelves">initialize crimes</button>
+    <button @click="purge">clean the db</button>
   </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"

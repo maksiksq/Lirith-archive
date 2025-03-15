@@ -7,7 +7,6 @@ const props = defineProps({
 })
 
 function onDragStart(e: any) {
-  console.log(e.item)
   e.item.style.cursor = "grabbing";
   e.item.style.zIndex = "9999";
 
@@ -27,8 +26,7 @@ const items = ref(props.items);
 
 
 onMounted(() => {
-  console.log(items);
-  // loadShelves();
+  // no
 })
 
 

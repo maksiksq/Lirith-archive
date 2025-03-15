@@ -16,6 +16,7 @@ async function initDB() {
 
 interface ShelfDataObjectInterface {
     id: number;
+    currentScale: number,
     x: number;
     y: number;
     isRad: boolean;
@@ -24,12 +25,14 @@ interface ShelfDataObjectInterface {
 
 export async function saveShelf(shelf: ShelfDataObjectInterface) {
     if (!shelf) {
-        console.error("ALERT, one of the saved shelves is a null. Hide, run, burn, conceive anarchy, we're all doomed, the world will perish...")
+        console.warn("ALERT, one of the saved shelves is a null. Hide, run, burn, conceive anarchy, we're all doomed, the world will perish...")
         return;
     }
+    console.log(`Saved shelf: ${JSON.stringify(shelf)}`);
     const id = shelf.id;
     const db: IDBPDatabase<unknown> = await initDB();
     await db.put(STORE_NAME, { contents: shelf, id })
+    console.log(await db.get(STORE_NAME, id));
 }
 
 export async function getShelf(id: number) {
