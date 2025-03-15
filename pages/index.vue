@@ -2,7 +2,6 @@
 import {ref, onMounted, computed, watch} from 'vue'
 import Shelf from '~/components/Shelf.vue';
 
-import { useRuntimeConfig } from '#imports';
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
 
@@ -236,10 +235,8 @@ onMounted(async () => {
   window.addEventListener('resize', resizeCanvas)
 })
 
-// future: Do not send the element itself to the db,
-// instead just the data and render it all here live
+// damn intellij ide menumonics are amazing, I am speed
 </script>
-
 
 <template>
   <div class="buttonWrap">
@@ -247,6 +244,9 @@ onMounted(async () => {
     <button @click="loadShelves">initialize crimes</button>
     <button @click="purge">clean the db</button>
     <button @click="updatePositions">rerender</button>
+  </div>
+  <div class="UI-container">
+    help
   </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
