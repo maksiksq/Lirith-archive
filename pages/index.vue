@@ -72,9 +72,14 @@ async function loadShelves(): Promise<any> {
       ];
   }
 
+  console.log(receivedShelfData.value);
+
+  shelfData.value = [];
   for (const shelf of receivedShelfData.value) {
     shelfData.value.push(shelf.contents);
   }
+  console.log("real");
+  console.log(shelfData.value);
 
   await updatePositions();
   console.info('Loaded shelves!')
@@ -88,21 +93,30 @@ async function findMaxShelfId(): Promise<number> {
   shelfData.value.forEach((shelf: ShelfDataObjectInterface) => {
     ids.push(shelf.id);
   })
+  console.log("hoi");
+  console.log(ids);
+  console.log(Math.max(...ids));
   return Math.max(...ids);
 }
 
 async function handleTest(): Promise<void> {
-  const maxShelfId = await findMaxShelfId();
+  const maxShelfId = ref(await findMaxShelfId());
+  if (maxShelfId.value === -Infinity) {
+    console.log("hell")
+    maxShelfId.value = 0;
+  }
+  console.log(maxShelfId.value);
 
   const newShelf = {
-    id: maxShelfId+1,
+    id: maxShelfId.value+1,
     x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*maxShelfId+1,
+    y: gridSizeUnscaled.value*maxShelfId.value+1,
     isRad: false,
     isIdkSomething: false,
   };
 
   await saveShelf(newShelf);
+  await loadShelves();
 }
 
 const scale = ref(1)
