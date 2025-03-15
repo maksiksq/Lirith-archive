@@ -43,15 +43,10 @@ const shelfData: any = ref([
   }]
 )
 
-
-
-interface ShelfDataInterface {
-  contents: any;
-}
-
 async function purge(): Promise<void> {
   console.info("Purged the db")
   await clearShelves();
+  await loadShelves();
 }
 
 async function loadShelves(): Promise<any> {
@@ -84,6 +79,7 @@ async function loadShelves(): Promise<any> {
     console.log(shelfData.value);
   }
 
+  await updatePositions();
   console.info('Loaded shelves!')
 }
 
