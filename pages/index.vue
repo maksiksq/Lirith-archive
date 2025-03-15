@@ -200,16 +200,16 @@ const worldElementPos = ref({x: 450, y: 450})
 const screenX = ref(450)
 const screenY = ref(450)
 
-interface ShelfObject {
-  shelfWrapper: HTMLElement | null;
-}
-
 interface ShelfDataObjectInterface {
   id: number;
   x: number;
   y: number;
   isRad: boolean;
   isIdkSomething: boolean;
+}
+
+interface ShelfObject {
+  shelfWrapper: HTMLElement | null;
 }
 
 async function updatePositions() {
@@ -223,23 +223,25 @@ async function updatePositions() {
       return
     }
 
-    // finds the shelf by its id
-    function findCurrentShelfData(id: number) {
-      const shelves = Object.values(shelfData.value) as ShelfDataObjectInterface[];
-      return shelves.find(shelf => shelf.id === id);
-    }
+    // here we access the props from the HTMl element. Obscure-ish and not really meant for this?
+    // like I care, matching it up with shelfData by picking a corresponding element by id
+    // sounds unstable because it's kinda a two-way relationship, I'd much rather access it locally.
+    //
+    // also cfg that the data is stringified by HTML
+    const currentShelfData = Object.fromEntries(Array.from(el.attributes, attr => [attr.name, attr.value]));
 
-    const currentId: number = parseInt(el.id.at(-1) as string);
-    const currentShelfData = findCurrentShelfData(currentId);
+    const currentId: number = parseInt(currentShelfData.id);
+    console.log("currentId");
+    console.log(currentId);
 
     console.log(currentShelfData);
-    if (currentShelfData === undefined) {
+    if (!currentShelfData) {
       console.warn("something is wrong with the data, all hell broke loose.")
       return;
     }
 
-    const worldX = worldElementPos.value.x + currentShelfData.x;
-    const worldY = worldElementPos.value.y + currentShelfData.y;
+    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x);
+    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y);
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
@@ -288,7 +290,7 @@ onMounted(async () => {
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
-    <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" :id="'shelf'+shelf.id.toString()" :items="items"></Shelf>
+    <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" :id="'shelf'+shelf.id.toString()" v-bind="shelf" :items="items"></Shelf>
   </div>
 </template>
 
