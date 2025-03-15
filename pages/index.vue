@@ -12,36 +12,15 @@ const size = ref(75)
 const gridSize = ref(75)
 const gridSizeUnscaled = ref(75)
 
-const shelfData: any = ref([
-  {
-    id: 1,
-    x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*1,
-    isRad: false,
-    isIdkSomething: false,
-  },
-  {
-    id: 2,
-    x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*2,
-    isRad: false,
-    isIdkSomething: false,
-  },
-  {
-    id: 3,
-    x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*3,
-    isRad: false,
-    isIdkSomething: false,
-  },
-  {
-    id: 4,
-    x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*4,
-    isRad: false,
-    isIdkSomething: false,
-  }]
-)
+interface ShelfDataObjectInterface {
+  id: number;
+  x: number;
+  y: number;
+  isRad: boolean;
+  isIdkSomething: boolean;
+}
+
+const shelfData = ref<Array<ShelfDataObjectInterface>>([])
 
 async function purge(): Promise<void> {
   console.info("Purged the db")
@@ -199,14 +178,6 @@ const worldElementPos = ref({x: 450, y: 450})
 
 const screenX = ref(450)
 const screenY = ref(450)
-
-interface ShelfDataObjectInterface {
-  id: number;
-  x: number;
-  y: number;
-  isRad: boolean;
-  isIdkSomething: boolean;
-}
 
 interface ShelfObject {
   shelfWrapper: HTMLElement | null;
