@@ -71,19 +71,19 @@ async function loadShelves(): Promise<any> {
         },
       ];
   }
-  console.log(receivedShelfData.value);
 
   for (const shelf of receivedShelfData.value) {
-    console.log(1);
     shelfData.value.push(shelf.contents);
-    console.log(shelfData.value);
   }
 
   await updatePositions();
   console.info('Loaded shelves!')
 }
 
-function findMaxShelfId(): number {
+async function findMaxShelfId(): Promise<number> {
+  // importantly we load the shelves from the db when saving to ensure we're using the correct
+  // version of the data
+  await loadShelves();
   const ids:Array<number> = [];
   shelfData.value.forEach((shelf: ShelfDataObjectInterface) => {
     ids.push(shelf.id);
@@ -92,7 +92,7 @@ function findMaxShelfId(): number {
 }
 
 async function handleTest(): Promise<void> {
-  const maxShelfId = findMaxShelfId();
+  const maxShelfId = await findMaxShelfId();
 
   const newShelf = {
     id: maxShelfId+1,
@@ -218,13 +218,11 @@ async function updatePositions() {
     const currentId: number = parseInt(el.id.at(-1) as string);
     const currentShelfData = findCurrentShelfData(currentId);
 
+    console.log(currentShelfData);
     if (currentShelfData === undefined) {
       console.warn("something is wrong with the data, all hell broke loose.")
       return;
     }
-    console.log(currentShelfData);
-    console.log(currentShelfData.id);
-    console.log(currentShelfData.x);
 
     const worldX = worldElementPos.value.x + currentShelfData.x;
     const worldY = worldElementPos.value.y + currentShelfData.y;
