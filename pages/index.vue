@@ -11,56 +11,45 @@ const shelves = ref([])
 const size = ref(75)
 const gridSize = ref(75)
 
-const shelfData: any = ref({
-  shelf1: {
+const shelfData: any = ref([
+  {
     id: 1,
     x: gridSize.value,
     y: gridSize.value*1,
     isRad: false,
     isIdkSomething: false,
   },
-  shelf2: {
+  {
     id: 2,
     x: gridSize.value,
     y: gridSize.value*2,
     isRad: false,
     isIdkSomething: false,
   },
-  shelf3: {
+  {
     id: 3,
     x: gridSize.value,
     y: gridSize.value*3,
     isRad: false,
     isIdkSomething: false,
   },
-  shelf4: {
+  {
     id: 4,
     x: gridSize.value,
     y: gridSize.value*4,
     isRad: false,
     isIdkSomething: false,
-  }
-})
+  }]
+)
 
-const elem1Content = ref<string>('')
-const shelfElem = ref<HTMLElement | null>(null)
 
-watch(shelfElem, (newVal) => {
-  if (newVal) {
-    const elChild = newVal.firstElementChild as HTMLElement;
-    if (elChild) {
-      trackedElems.push(elChild);
-      updatePositions();
-    }
-  }
-});
 
 interface ShelfDataInterface {
   contents: any;
 }
 
 async function loadShelves(): Promise<any> {
-  console.log('Loading shelves...')
+  console.info('Loading shelves...')
   if (!import.meta.client) {
     return;
   }
@@ -71,19 +60,27 @@ async function loadShelves(): Promise<any> {
   const receivedShelfData = ref<ShelfDataInterface | null>(await getShelf(1));
   if (!receivedShelfData.value) {
     console.log("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
-    receivedShelfData.value = {contents: {
-        shelf0: {
+    receivedShelfData.value = {contents: [
+        {
           isRad: false,
           isIdkSomething: false,
         },
-      }};
+      ]};
   }
+  console.log(receivedShelfData);
+  console.info('Loaded shelves!')
 }
 
 async function handleTest(): Promise<void> {
-  await saveShelf({
-    isRad: false,
-  }, 1);
+  await saveShelf([
+    {
+      id: 4,
+      x: gridSize.value,
+      y: gridSize.value*4,
+      isRad: false,
+      isIdkSomething: false,
+    }
+  ], 4);
 }
 
 const scale = ref(1)
@@ -164,8 +161,6 @@ const zoom = (e: any) => {
 
 const worldElementPos = ref({x: 450, y: 450})
 
-const trackedElems: Array<any> = reactive([])
-
 const screenX = ref(450)
 const screenY = ref(450)
 
@@ -204,12 +199,10 @@ async function updatePositions() {
 
     // am i doing this sloppily
     const currentId: number = parseInt(el.id.at(-1) as string);
-    console.log(currentId)
-
     const currentShelfData = findCurrentShelfData(currentId);
 
     if (currentShelfData === undefined) {
-      console.log("something is wrong with the data, all hell broke loose.")
+      console.info("something is wrong with the data, all hell broke loose.")
       return;
     }
 
@@ -233,31 +226,16 @@ const items = ref([
   {name: "Teeesst", id: 2},
 ],)
 
-// in the future i can do it for v-fors
-const setElems = (el: HTMLElement) => {
-  if (el) trackedElems.push(el);
-};
-
-const shelfComp = ref<HTMLCanvasElement | null>(null);
 
 onMounted(async () => {
   if (!import.meta.client) {
-    console.log('NOT RUNNING ON CLIENT (SOMEHOW)');
+    console.info('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
   }
   if (import.meta.client) {
-    console.log('Running on client)');
+    console.info('Running on client)');
   }
   await loadShelves();
-
-  console.log("he")
-  // defs for elems manually for now
-  // @ts-ignore
-  const shelfWrapper: HTMLElement = shelfComp.value?.shelfWrapper;
-  if (shelfWrapper) trackedElems.push(shelfWrapper);
-  console.log(trackedElems)
-
-  console.log("hee")
 
   resizeCanvas()
   window.addEventListener('resize', resizeCanvas)
@@ -277,9 +255,6 @@ onMounted(async () => {
        @mousedown="startPan"
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
-    <div ref="shelfElem" v-if="elem1Content" v-html="elem1Content"></div>
-
-
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
     <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" :id="'shelf'+shelf.id.toString()" :items="items"></Shelf>
   </div>

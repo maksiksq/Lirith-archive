@@ -16,12 +16,9 @@ async function initDB() {
 
 export async function saveShelf(shelf: any, id: number) {
     if (!shelf) {
-        console.error("ALERT, one of the shelves is a null. Hide, run, burn, concieve anarchy, we're all doomed, the world will perish...")
+        console.error("ALERT, one of the saved shelves is a null. Hide, run, burn, concieve anarchy, we're all doomed, the world will perish...")
         return;
     }
-    console.log(shelf);
-    console.log("id:");
-    console.log(id);
     const shelfButString = shelf.outerHTML;
     console.log(shelfButString);
     const db: IDBPDatabase<unknown> = await initDB();
