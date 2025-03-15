@@ -72,19 +72,14 @@ async function findMaxShelfId(): Promise<number> {
   shelfData.value.forEach((shelf: ShelfDataObjectInterface) => {
     ids.push(shelf.id);
   })
-  console.log("hoi");
-  console.log(ids);
-  console.log(Math.max(...ids));
   return Math.max(...ids);
 }
 
 async function handleTest(): Promise<void> {
   const maxShelfId = ref(await findMaxShelfId());
   if (maxShelfId.value === -Infinity) {
-    console.log("hell")
     maxShelfId.value = 0;
   }
-  console.log(maxShelfId.value);
 
   const newShelf = {
     id: maxShelfId.value+1,
@@ -202,10 +197,7 @@ async function updatePositions() {
     const currentShelfData = Object.fromEntries(Array.from(el.attributes, attr => [attr.name, attr.value]));
 
     const currentId: number = parseInt(currentShelfData.id);
-    console.log("currentId");
-    console.log(currentId);
 
-    console.log(currentShelfData);
     if (!currentShelfData) {
       console.warn("something is wrong with the data, all hell broke loose.")
       return;
@@ -261,7 +253,7 @@ onMounted(async () => {
        @wheel.prevent="zoom">
     <canvas ref="canvas"></canvas>
     <!--    this used to say "time to reinvent grid" before i reinvented grid-->
-    <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" :id="'shelf'+shelf.id.toString()" v-bind="shelf" :items="items"></Shelf>
+    <Shelf v-for="shelf in shelfData" ref="shelves" :key="shelf.id" v-bind="shelf" :items="items"></Shelf>
   </div>
 </template>
 
