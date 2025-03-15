@@ -10,33 +10,34 @@ const shelves = ref([])
 
 const size = ref(75)
 const gridSize = ref(75)
+const gridSizeUnscaled = ref(75)
 
 const shelfData: any = ref([
   {
     id: 1,
-    x: gridSize.value,
-    y: gridSize.value*1,
+    x: gridSizeUnscaled.value,
+    y: gridSizeUnscaled.value*1,
     isRad: false,
     isIdkSomething: false,
   },
   {
     id: 2,
-    x: gridSize.value,
-    y: gridSize.value*2,
+    x: gridSizeUnscaled.value,
+    y: gridSizeUnscaled.value*2,
     isRad: false,
     isIdkSomething: false,
   },
   {
     id: 3,
-    x: gridSize.value,
-    y: gridSize.value*3,
+    x: gridSizeUnscaled.value,
+    y: gridSizeUnscaled.value*3,
     isRad: false,
     isIdkSomething: false,
   },
   {
     id: 4,
-    x: gridSize.value,
-    y: gridSize.value*4,
+    x: gridSizeUnscaled.value,
+    y: gridSizeUnscaled.value*4,
     isRad: false,
     isIdkSomething: false,
   }]
@@ -91,9 +92,8 @@ async function handleTest(): Promise<void> {
   await saveShelf(
     {
       id: 5,
-      currentScale: scale.value,
-      x: gridSize.value,
-      y: gridSize.value*5,
+      x: gridSizeUnscaled.value,
+      y: gridSizeUnscaled.value*5,
       isRad: false,
       isIdkSomething: false,
     });
@@ -203,13 +203,12 @@ async function updatePositions() {
       return
     }
 
-    // finds the shelf by its id, maybe I should've just used an array???
+    // finds the shelf by its id
     function findCurrentShelfData(id: number) {
       const shelves = Object.values(shelfData.value) as ShelfDataObjectInterface[];
       return shelves.find(shelf => shelf.id === id);
     }
 
-    // am i doing this sloppily
     const currentId: number = parseInt(el.id.at(-1) as string);
     const currentShelfData = findCurrentShelfData(currentId);
 
@@ -217,6 +216,9 @@ async function updatePositions() {
       console.warn("something is wrong with the data, all hell broke loose.")
       return;
     }
+    console.log(currentShelfData);
+    console.log(currentShelfData.id);
+    console.log(currentShelfData.x);
 
     const worldX = worldElementPos.value.x + currentShelfData.x;
     const worldY = worldElementPos.value.y + currentShelfData.y;
@@ -225,8 +227,6 @@ async function updatePositions() {
     screenY.value = worldY * scale.value + translateY.value
 
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
-
-
   })
 }
 

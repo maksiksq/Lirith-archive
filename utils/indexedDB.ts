@@ -16,7 +16,6 @@ async function initDB() {
 
 interface ShelfDataObjectInterface {
     id: number;
-    currentScale: number,
     x: number;
     y: number;
     isRad: boolean;
