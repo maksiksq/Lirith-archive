@@ -41,7 +41,7 @@ onMounted(() => {
   // i hate methods. Couldn't you just separate these. Nested pain.
   interact(uiFloatieLibrary.value)
       .draggable({
-        inertia: true,
+        inertia: false,
         modifiers: [
           interact.modifiers.restrictRect({
             restriction: 'parent',
@@ -74,7 +74,7 @@ onMounted(() => {
 
     interact(el)
         .draggable({
-          inertia: true,
+          inertia: false,
           modifiers: [
             interact.modifiers.restrictRect({
               restriction: mainElem,
