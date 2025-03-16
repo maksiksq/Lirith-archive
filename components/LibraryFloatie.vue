@@ -16,8 +16,6 @@ const uiFloatieLibrary = ref<HTMLElement | null>(null)
 
 function moveOnDrag(e: any) {
   const target = e.target as HTMLElement;
-  console.log("target");
-  console.log(target);
 
   if (!target) return;
 
@@ -38,18 +36,18 @@ onMounted(() => {
       .draggable({
         inertia: true,
         modifiers: [
-            interact.modifiers.restrictRect({
-              restriction: 'parent',
-              endOnly: true,
-            })
+          interact.modifiers.restrictRect({
+            restriction: 'parent',
+            endOnly: true,
+          })
         ],
 
         autoScroll: false,
 
         listeners: {
           move: moveOnDrag,
-          end (event) {
-            var textEl = event.target.querySelector('p')
+          end(event) {
+            const textEl = event.target.querySelector('p')
 
             textEl && (textEl.textContent =
                 'moved a distance of ' +
@@ -59,26 +57,36 @@ onMounted(() => {
           }
         }
       })
+
+  // this keeps it working with translateY(-50%)
+  const target = uiFloatieLibrary.value;
+  const height = ref(target.offsetHeight);
+  const y = ref((parseFloat(target.getAttribute('data-y') ?? '0') - height.value/2))
+  target.setAttribute('data-y', y.value.toString())
+
 })
 
 </script>
 
 <template>
-    <div ref="uiFloatieLibrary" class="ui-floatie ui-floatie-library">
-      <div class="tabs">
-        <div>tab1</div>
-        <div>&nbsp;tab2</div>
-      </div>
-      <div class="library">
-        <div v-for="entry in library" class="entry"><p>aaa</p></div>
-      </div>
+  <div ref="uiFloatieLibrary" class="ui-floatie ui-floatie-library">
+    <div class="tabs">
+      <div>tab1</div>
+      <div>&nbsp;tab2</div>
     </div>
+    <div class="library">
+      <div v-for="entry in library" class="entry"><p>aaa</p></div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped lang="scss">
 .ui-floatie-library {
   position: absolute;
   z-index: 99999;
+
+  user-select: none;
 
   transform: translateY(-50%);
   top: 50%;
@@ -113,7 +121,7 @@ onMounted(() => {
     gap: 10px;
 
     .entry {
-      flex-basis: calc(100%/3 - 10px);
+      flex-basis: calc(100% / 3 - 10px);
       aspect-ratio: 1;
     }
   }
