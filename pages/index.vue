@@ -4,6 +4,7 @@ import Shelf from '~/components/Shelf.vue';
 
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
+import Hud from "~/components/Hud.vue";
 
 const shelves = ref([])
 
@@ -40,14 +41,14 @@ async function loadShelves(): Promise<any> {
   if (!receivedShelfData.value) {
     console.warn("no shelf detected in the database so loaded fallback (or just heat death of javascript nulls and some weird happening)")
     receivedShelfData.value = [
-        {
-          id: -999,
-          x: gridSize.value,
-          y: gridSize.value*4,
-          isRad: false,
-          isIdkSomething: false,
-        },
-      ];
+      {
+        id: -999,
+        x: gridSize.value,
+        y: gridSize.value * 4,
+        isRad: false,
+        isIdkSomething: false,
+      },
+    ];
   }
 
   console.log(receivedShelfData.value);
@@ -67,7 +68,7 @@ async function findMaxShelfId(): Promise<number> {
   // importantly we load the shelves from the db when saving to ensure we're using the correct
   // version of the data
   await loadShelves();
-  const ids:Array<number> = [];
+  const ids: Array<number> = [];
   shelfData.value.forEach((shelf: ShelfDataObjectInterface) => {
     ids.push(shelf.id);
   })
@@ -81,9 +82,9 @@ async function handleTest(): Promise<void> {
   }
 
   const newShelf = {
-    id: maxShelfId.value+1,
+    id: maxShelfId.value + 1,
     x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value*maxShelfId.value+1,
+    y: gridSizeUnscaled.value * maxShelfId.value + 1,
     isRad: false,
     isIdkSomething: false,
   };
@@ -219,17 +220,6 @@ const items = ref([
   {name: "Teeesst", id: 2},
 ],)
 
-// Static array for the shelf library entries
-const library = ref([
-  {name: "Text", id: 0},
-  {name: "Icon", id: 1},
-  {name: "Long", id: 2},
-  {name: "Long to-do", id: 3},
-  {name: "Switch", id: 4},
-  {name: "Reminder", id: 5},
-  {name: "Timer", id: 6},
-])
-
 onMounted(async () => {
   if (!import.meta.client) {
     console.warn('NOT RUNNING ON CLIENT (SOMEHOW)');
@@ -254,11 +244,7 @@ onMounted(async () => {
     <button @click="purge">clean the db</button>
     <button @click="updatePositions">rerender</button>
   </div>
-  <div class="ui-container">
-    <div class="ui-floatie ui-floatie-library">
-      <div v-for="entry in library" class="entry">beans</div>
-    </div>
-  </div>
+  <Hud></Hud>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
        @wheel.prevent="zoom">
@@ -275,6 +261,7 @@ onMounted(async () => {
   display: flex;
   position: absolute;
   z-index: 99999;
+
   button {
     cursor: pointer;
 
