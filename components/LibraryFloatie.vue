@@ -43,18 +43,10 @@ onMounted(() => {
         ],
 
         autoScroll: false,
+        allowFrom: ".tabs",
 
         listeners: {
           move: moveOnDrag,
-          end(event) {
-            const textEl = event.target.querySelector('p')
-
-            textEl && (textEl.textContent =
-                'moved a distance of ' +
-                (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-                    Math.pow(event.pageY - event.y0, 2) | 0))
-                    .toFixed(2) + 'px')
-          }
         }
       })
 
@@ -114,15 +106,20 @@ onMounted(() => {
   }
 
   .library {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    pointer-events: none;
 
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    padding: 10px;
+    gap: 15px;
 
     .entry {
-      flex-basis: calc(100% / 3 - 10px);
       aspect-ratio: 1;
+
+      background-color: #161616;
+      border-radius: 8px;
+      border: 3px solid white;
     }
   }
 }
