@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import interact from "interactjs";
 
+const mainElem: HTMLElement | undefined = inject("mainElem");
+
 // Static array for the shelf library entries
 const library = ref([
   {name: "Text", id: 0},
@@ -28,7 +30,12 @@ function moveOnDrag(e: any) {
   target.setAttribute('data-y', y.value)
 }
 
+const entry = ref([])
+
 onMounted(() => {
+  if (!mainElem) {
+    console.warn("This error is not real. If the main does not exist everything exploded way before the inception of universe and the sfc right here. This line of code will probably never be run, left to rust and get washed away by rain in neverity. But TypeScript is happy, so let's all be happy and ignore this line, forever, period.")
+  }
   if (!uiFloatieLibrary.value) return;
 
   // i hate methods. Couldn't you just separate these. Nested pain.
@@ -58,6 +65,44 @@ onMounted(() => {
   const y = ref((parseFloat(target.getAttribute('data-y') ?? '0') - height.value/2))
   target.setAttribute('data-y', y.value.toString())
 
+  entry.value.forEach((el: HTMLElement | null) => {
+    if (!el) return;
+    console.log(el)
+
+    const initialX = 0;
+    const initialY = 0;
+
+    interact(el)
+        .draggable({
+          inertia: true,
+          modifiers: [
+            interact.modifiers.restrictRect({
+              restriction: mainElem,
+              endOnly: true,
+            })
+          ],
+
+          autoScroll: false,
+
+          listeners: {
+            move: moveOnDrag,
+            end(e) {
+              const target = e.target as HTMLElement;
+
+              target.style.transition = "transform 0.3s ease-out";
+              target.style.transform = `translate(${initialX}px, ${initialY}px)`;
+
+              setTimeout(() => {
+                target.setAttribute('data-x', initialX.toString());
+                target.setAttribute('data-y', initialY.toString());
+                target.style.transition = "";
+              }, 300);
+            }
+          }
+        })
+  })
+
+
 })
 
 </script>
@@ -69,7 +114,7 @@ onMounted(() => {
       <div>&nbsp;tab2</div>
     </div>
     <div class="library">
-      <div v-for="entry in library" class="entry"><p>aaa</p></div>
+      <div v-for="entry in library" ref="entry" class="entry"><p>aaa</p></div>
     </div>
   </div>
 
@@ -108,8 +153,6 @@ onMounted(() => {
   }
 
   .library {
-    pointer-events: none;
-
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 

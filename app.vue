@@ -1,5 +1,10 @@
 <script setup lang="ts">
 
+const mainElem = ref(null)
+
+onMounted(() => {
+  provide("mainElem", mainElem);
+})
 </script>
 <template>
   <div>
@@ -7,7 +12,7 @@
       <header>
         <!-- // later onwards gonna replace this with a custom window thing with tabs but for now just laying this out -->
       </header>
-      <main>
+      <main ref="main">
         <NuxtPage/>
       </main>
 
