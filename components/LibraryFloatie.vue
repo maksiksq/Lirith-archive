@@ -16,6 +16,8 @@ const uiFloatieLibrary = ref<HTMLElement | null>(null)
 
 function moveOnDrag(e: any) {
   const target = e.target as HTMLElement;
+  console.log("target");
+  console.log(target);
 
   if (!target) return;
 

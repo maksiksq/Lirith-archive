@@ -23,7 +23,6 @@ import LibraryFloatie from "~/components/LibraryFloatie.vue";
   top: 0;
   left: 0;
 
-  pointer-events: none;
   background-color: transparent;
 }
 </style>
