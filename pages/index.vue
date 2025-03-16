@@ -4,7 +4,7 @@ import Shelf from '~/components/Shelf.vue';
 
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
-import Hud from "~/components/Hud.vue";
+import IndexHud from "~/components/IndexHud.vue";
 
 const shelves = ref([])
 
@@ -244,7 +244,7 @@ onMounted(async () => {
     <button @click="purge">clean the db</button>
     <button @click="updatePositions">rerender</button>
   </div>
-  <Hud></Hud>
+  <IndexHud></IndexHud>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
        @wheel.prevent="zoom">

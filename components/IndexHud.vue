@@ -8,10 +8,22 @@ import LibraryFloatie from "~/components/LibraryFloatie.vue";
     probably a side bar or two later on here, im not entirely sure yet,
     it depends on how it all goes ig
   -->
-  <LibraryFloatie></LibraryFloatie>
+  <div class="ui-container">
+    <LibraryFloatie></LibraryFloatie>
+  </div>
 
 </template>
 
 <style scoped lang="scss">
+.ui-container {
+  width: 100%;
+  height: 100%;
 
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  pointer-events: none;
+  background-color: transparent;
+}
 </style>
