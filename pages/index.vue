@@ -212,14 +212,23 @@ async function updatePositions() {
   })
 }
 
-
-
+// Items of each shelf for now just like this
 const items = ref([
   {name: "Test", id: 0},
   {name: "Teest", id: 1},
   {name: "Teeesst", id: 2},
 ],)
 
+// Static array for the shelf library entries
+const library = ref([
+  {name: "Text", id: 0},
+  {name: "Icon", id: 1},
+  {name: "Long", id: 2},
+  {name: "Long to-do", id: 3},
+  {name: "Switch", id: 4},
+  {name: "Reminder", id: 5},
+  {name: "Timer", id: 6},
+])
 
 onMounted(async () => {
   if (!import.meta.client) {
@@ -245,8 +254,10 @@ onMounted(async () => {
     <button @click="purge">clean the db</button>
     <button @click="updatePositions">rerender</button>
   </div>
-  <div class="UI-container">
-    help
+  <div class="ui-container">
+    <div class="ui-floatie ui-floatie-library">
+      <div v-for="entry in library" class="entry">beans</div>
+    </div>
   </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
