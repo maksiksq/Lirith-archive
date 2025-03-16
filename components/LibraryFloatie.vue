@@ -43,6 +43,8 @@ onMounted(() => {
         ],
 
         autoScroll: false,
+
+        // makes it movable only using the top thingy
         allowFrom: ".tabs",
 
         listeners: {
@@ -84,7 +86,7 @@ onMounted(() => {
   top: 50%;
   right: 5vw;
 
-  width: 30vw;
+  width: 20vw;
   height: 80vh;
 
   background-color: #161616;

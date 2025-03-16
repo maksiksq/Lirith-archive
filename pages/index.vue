@@ -51,15 +51,10 @@ async function loadShelves(): Promise<any> {
     ];
   }
 
-  console.log(receivedShelfData.value);
-
   shelfData.value = [];
   for (const shelf of receivedShelfData.value) {
     shelfData.value.push(shelf.contents);
   }
-  console.log("real");
-  console.log(shelfData.value);
-
   await updatePositions();
   console.info('Loaded shelves!')
 }
@@ -213,6 +208,15 @@ async function updatePositions() {
   })
 }
 
+function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
+  function determine(val: number | null) {
+    if (!val) return null;
+    return Math.round(val / gridSize.value);
+  }
+
+  return {x: determine(x), y: determine(y)};
+}
+
 // Items of each shelf for now just like this
 const items = ref([
   {name: "Test", id: 0},
@@ -243,6 +247,7 @@ onMounted(async () => {
     <button @click="loadShelves">initialize crimes</button>
     <button @click="purge">clean the db</button>
     <button @click="updatePositions">rerender</button>
+    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>
   </div>
   <IndexHud></IndexHud>
   <div class="grid-container" ref="grid"
