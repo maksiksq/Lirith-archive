@@ -142,7 +142,7 @@ const startPan = (event: any) => {
   startY.value = event.clientY - translateY.value
   window.addEventListener('mousemove', pan)
   window.addEventListener('mouseup', stopPan)
-}
+}//
 
 const pan = (event: any) => {
   if (!isPanning.value) return
