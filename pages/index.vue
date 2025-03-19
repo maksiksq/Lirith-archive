@@ -35,6 +35,7 @@ async function loadShelves(): Promise<any> {
   }
   // Take the shelf from the DB, turn it into a real, tangible element
   //
+  //
   // Also, first take a bunch of eggs and sugar, whip the eggs and sugar
   // for about 7 minutes until they turn into a singular mass
   const receivedShelfData = ref<Array<any> | null>(await getAllShelves());
@@ -223,6 +224,7 @@ const items = ref([
   {name: "Teest", id: 1},
   {name: "Teeesst", id: 2},
 ],)
+
 
 onMounted(async () => {
   if (!import.meta.client) {
