@@ -9,13 +9,10 @@ onMounted(() => {
 <template>
   <div>
     <NuxtLayout>
-      <header>
-        <!-- // later onwards gonna replace this with a custom window thing with tabs but for now just laying this out -->
-      </header>
+      <OsHead></OsHead>
       <main ref="main">
         <NuxtPage/>
       </main>
-
     </NuxtLayout>
   </div>
 </template>
