@@ -9,5 +9,6 @@
 ### Index (THE GREED or grid for short)
 - [ ] Think of limiting the infinispace or provide navigation for said infinispace
 - [ ] Come up with scaling per x 
+- [ ] Dots instead of lines
 ### LibraryFloatie.vue
 - [ ] Try out different easings and maybe bring back inertia cause it was kinda cool

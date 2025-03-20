@@ -118,6 +118,8 @@ const drawGrid = () => {
   for (let x = offsetX; x < width; x += gridSize.value) {
     ctx.moveTo(x, 0)
     ctx.lineTo(x, height)
+    // make it dots instead of lines
+    // ctx.fillRect(10,10,x,x);
   }
 
   for (let y = offsetY; y < height; y += gridSize.value) {
