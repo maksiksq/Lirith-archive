@@ -292,7 +292,7 @@ onMounted(async () => {
   height: 100vh;
   overflow: hidden;
   position: relative;
-  background-color: #222;
+  background-color: #0F0F0F;
 }
 
 canvas {
@@ -301,6 +301,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
+
 }
 
 // after adding the cherry on top, your cake is ready, you can also add
