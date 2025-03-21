@@ -53,6 +53,7 @@ header {
   }
 
   .icon {
+
   }
 
   .tabs {
@@ -67,7 +68,7 @@ header {
       border: solid 1px #757575;
       height: 80%;
 
-
+      border-radius: 6px 6px 0 0;
     }
   }
 
