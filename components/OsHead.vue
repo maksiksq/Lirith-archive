@@ -1,26 +1,26 @@
 <script setup lang="ts">
 
 const tabs = ref([
-  {name: "homeTab", path: "", home: true},
-  {name: "exampleTab1", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
-  {name: "exampleTab2", path: "", home: false},
+  {name: "homeTab", tab: "", home: true},
+  {name: "exampleTab1", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
 ])
-
+//
 </script>
 
 <template>
   <header>
     <div class="icon">
-      <p>a</p>
+      <img src="https://placehold.co/64" alt="icon" />
     </div>
     <div class="tabs">
       <div v-for="tab in tabs" class="tab">
@@ -53,7 +53,18 @@ header {
   }
 
   .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    width: 2vw;
+    img {
+      padding-top: 0.3vw;
+
+      width: 1vw;
+      height: 1vw;
+
+    }
   }
 
   .tabs {
@@ -65,10 +76,13 @@ header {
       align-content: flex-end;
       background-color: #0F0F0F;
 
-      border: solid 1px #757575;
       height: 80%;
 
       border-radius: 6px 6px 0 0;
+    }
+
+    .selected {
+      border: solid 1px #757575;
     }
   }
 
