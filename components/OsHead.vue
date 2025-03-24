@@ -39,7 +39,7 @@ header {
 
   background-color: #131313;
 
-  height: 4vh;
+  height: 2.5vw;
 
   div {
     height: 100%;
@@ -67,10 +67,16 @@ header {
     display: flex;
     flex-direction: row;
 
+    overflow-x: scroll;
+    // fix scrollbar future maksiks
     .tab {
       display: flex;
       align-content: flex-end;
       background-color: #0F0F0F;
+
+      width: 15vw;
+      margin-left: 0.3vw;
+      margin-right: 0.3vw;
 
       height: 80%;
 

@@ -247,11 +247,11 @@ onMounted(async () => {
 
 <template>
   <div class="buttonWrap">
-    <button @click="handleTest">add crimes</button>
-    <button @click="loadShelves">initialize crimes</button>
-    <button @click="purge">clean the db</button>
-    <button @click="updatePositions">rerender</button>
-    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>
+<!--    <button @click="handleTest">add crimes</button>-->
+<!--    <button @click="loadShelves">initialize crimes</button>-->
+<!--    <button @click="purge">clean the db</button>-->
+<!--    <button @click="updatePositions">rerender</button>-->
+<!--    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>-->
   </div>
   <IndexHud></IndexHud>
   <div class="grid-container" ref="grid"
