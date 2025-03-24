@@ -7,6 +7,7 @@ const tabs = ref([
   {name: "exampleTab2", tab: "", home: false},
   {name: "exampleTab2", tab: "", home: false},
   {name: "exampleTab2", tab: "", home: false},
+  {name: "exampleTab2", tab: "", home: false},
   {name: "exampleTab2", tab: "", home: false}
 ])
 //
