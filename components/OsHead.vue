@@ -79,7 +79,10 @@ header {
       flex-direction: row;
 
       overflow-x: scroll;
+
       .tab {
+        min-width: 15vw;
+
         display: flex;
         align-content: flex-end;
         background-color: #0F0F0F;
@@ -98,9 +101,6 @@ header {
       }
     }
 
-    .tabs::-webkit-scrollbar {
-      display: none;
-    }
 
     .OsButtonWrap {
       display: flex;
