@@ -69,6 +69,7 @@ header {
 
     overflow-x: scroll;
     // fix scrollbar future maksiks
+    //
     .tab {
       display: flex;
       align-content: flex-end;
