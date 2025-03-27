@@ -117,6 +117,12 @@ header {
         height: 80%;
 
         border-radius: 6px 6px 0 0;
+
+        cursor: pointer;
+
+        .p {
+          pointer-events: none;
+        }
       }
 
       .selected {
