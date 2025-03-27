@@ -16,7 +16,24 @@ const tabs = ref([
   {name: "exampleTab2", tab: "", home: false},
   {name: "exampleTab2", tab: "", home: false}
 ])
-// //
+
+const tabsContainer = ref<HTMLElement | null>(null);
+
+const scrollHorizontally = (e: any): void => {
+  console.log("yessssss")
+  if (!tabsContainer.value) {
+    return;
+  }
+
+  if (e.deltaY !== 0) {
+    e.preventDefault();
+    tabsContainer.value.scrollLeft += e.deltaY * 1;
+  }
+}
+
+onMounted(() => {
+
+})
 </script>
 
 <template>
@@ -25,7 +42,7 @@ const tabs = ref([
       <div class="icon">
         <img src="https://placehold.co/64" alt="icon" />
       </div>
-      <div class="tabs">
+      <div ref="tabsContainer" class="tabs" @wheel.prevent="scrollHorizontally">
         <div v-for="tab in tabs" class="tab">
           <p>b b b b b</p>
         </div>
@@ -75,6 +92,7 @@ header {
 
       }
     }
+
 
     .tabs {
       display: flex;
