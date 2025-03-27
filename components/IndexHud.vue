@@ -19,8 +19,9 @@ import LibraryFloatie from "~/components/LibraryFloatie.vue";
   width: 100%;
   height: 100%;
 
-  position: relative;
-  top: 0;
+
+  position: absolute;
+  top: 2.5vw;
   left: 0;
 
   background-color: transparent;

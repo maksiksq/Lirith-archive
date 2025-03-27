@@ -51,6 +51,7 @@ header {
 
     background-color: #131313;
 
+    // linked to ui top
     height: 2.5vw;
 
     div {
