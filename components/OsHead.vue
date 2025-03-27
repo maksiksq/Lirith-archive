@@ -88,10 +88,8 @@ header {
 
         width: 1vw;
         height: 1vw;
-
       }
     }
-
 
     .tabs {
       display: flex;
