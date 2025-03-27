@@ -19,15 +19,14 @@ const tabs = ref([
 
 const tabsContainer = ref<HTMLElement | null>(null);
 
-const scrollHorizontally = (e: any): void => {
-  console.log("yessssss")
+const scrollHorizontally = (e: WheelEvent): void => {
   if (!tabsContainer.value) {
     return;
   }
 
   if (e.deltaY !== 0) {
     e.preventDefault();
-    tabsContainer.value.scrollLeft += e.deltaY * 1;
+    tabsContainer.value.scrollBy({ left: e.deltaY * 2, behavior: "smooth" })
   }
 }
 
