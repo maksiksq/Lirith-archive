@@ -79,7 +79,11 @@ header {
       display: flex;
       flex-direction: row;
 
-      overflow-x: scroll;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      white-space: nowrap;
 
       .tab {
         min-width: 15vw;
@@ -100,6 +104,11 @@ header {
       .selected {
         border: solid 1px #757575;
       }
+    }
+
+    .tabs::-webkit-scrollbar {
+      width: 0;
+      height: 0;
     }
 
 
