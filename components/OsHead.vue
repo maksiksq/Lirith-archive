@@ -26,7 +26,7 @@ const switchToTab = (tab: tabInterface): void => {
 }
 
 const dragTab = (tab: tabInterface): void => {
-  // q PLACEHOLDER
+  console.log("hoi")
 }
 
 const tabsContainer = ref<HTMLElement | null>(null);
@@ -43,31 +43,39 @@ const scrollHorizontally = (e: WheelEvent): void => {
   }
 }
 
+const makeEachTabDraggable = (): void => {
+  nextTick(() => {
+    tabElems.value?.forEach((tabElem: HTMLElement): void => {
+      console.log(tabElem);
+      interact(tabElem)
+          .draggable({
+            inertia: false,
+            modifiers: [
+              interact.modifiers.restrictRect({
+                restriction: 'parent',
+                endOnly: true,
+              })
+            ],
+
+            autoScroll: false,
+
+            // makes it movable only using the top thingy
+            allowFrom: ".tabs",
+
+            listeners: {
+              move: dragTab,
+            }
+          })
+
+    })
+  });
+
+
+}
+
 onMounted(() => {
-  tabElems.value?.forEach((tabElem: HTMLElement): void => {
-    interact(tabElem)
-        .draggable({
-          inertia: false,
-          modifiers: [
-            interact.modifiers.restrictRect({
-              restriction: 'parent',
-              endOnly: true,
-            })
-          ],
-
-          autoScroll: false,
-
-          // makes it movable only using the top thingy
-          allowFrom: ".tabs",
-
-          listeners: {
-            move: moveOnDrag,
-          }
-        })
-
-  })
-});
-
+  makeEachTabDraggable();
+})
 
 </script>
 
@@ -78,7 +86,7 @@ onMounted(() => {
         <img src="https://placehold.co/64" alt="icon" />
       </div>
       <div ref="tabsContainer" class="tabs" @wheel.prevent="scrollHorizontally">
-        <div v-for="tab in tabs" class="tab" @click="switchToTab(tab)" >
+        <div ref="tabElems" v-for="tab in tabs" class="tab" @click="switchToTab(tab)" >
           <p>b b b b b</p>
         </div>
       </div>
