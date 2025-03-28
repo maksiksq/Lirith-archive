@@ -76,6 +76,7 @@ header {
       display: flex;
       align-items: flex-end;
     }
+    //
 
     .icon {
       display: flex;
