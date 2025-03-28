@@ -1,21 +1,27 @@
 <script setup lang="ts">
 
+interface tabInterface {
+  name: string,
+  id: number
+}
+
 const tabs = ref([
-  {name: "homeTab", tab: "", home: true},
-  {name: "exampleTab1", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false},
-  {name: "exampleTab2", tab: "", home: false}
+  {name: "homeTab", id: 0},
+  {name: "calendarTab", id: -999},
+  {name: "exampleTab1", id: 1},
+  {name: "exampleTab1", id: 2},
+  {name: "exampleTab1", id: 3},
+  {name: "exampleTab1", id: 4},
+  {name: "exampleTab1", id: 5},
+  {name: "exampleTab1", id: 6},
+  {name: "exampleTab1", id: 7},
+  {name: "exampleTab1", id: 8},
+  {name: "exampleTab1", id: 9},
 ])
+
+const switchToTab = (tab: tabInterface): void => {
+  // q PLACEHOLDER
+}
 
 const tabsContainer = ref<HTMLElement | null>(null);
 
@@ -42,7 +48,7 @@ onMounted(() => {
         <img src="https://placehold.co/64" alt="icon" />
       </div>
       <div ref="tabsContainer" class="tabs" @wheel.prevent="scrollHorizontally">
-        <div v-for="tab in tabs" class="tab">
+        <div v-for="tab in tabs" class="tab" @click="switchToTab(tab)">
           <p>b b b b b</p>
         </div>
       </div>
@@ -56,7 +62,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 header {
-
   .main-cont {
     width: 100%;
 
