@@ -4,7 +4,8 @@
 - [ ] Design structure.
 - [ ] Add tabs, but make shelves expand to tabs ? 
 - [ ] Rewrite header and grid and ui component mess to be properly responsive instead of vw height based.
-- [ ] Add clear separation for similarly named things, e. g. tabs in OsHead.vue and LibraryFloatie.vue
+- [ ] Add clear separation for similarly named things, e.g. tabs in OsHead.vue and LibraryFloatie.vue
+- [ ] Remake everything in Svelte if necessary for performance in the future
 ### Index (THE GREED or grid for short)
 - [ ] Think of limiting the infinispace or provide navigation for said infinispace
 - [ ] Come up with scaling per x 
