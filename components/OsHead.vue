@@ -23,6 +23,10 @@ const switchToTab = (tab: tabInterface): void => {
   // q PLACEHOLDER
 }
 
+const dragTab = (tab: tabInterface): void => {
+  // q PLACEHOLDER
+}
+
 const tabsContainer = ref<HTMLElement | null>(null);
 
 const scrollHorizontally = (e: WheelEvent): void => {
