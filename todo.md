@@ -16,3 +16,6 @@
 - [ ] Add tabs, maybe???
 - [ ] Possibly add another tab for planning and etc. in the future. If I actually need it though.
 - [ ] Animate tabs smh toooo???
+
+### Mobile app
+- [ ] Finish the desktop version first and then think about this

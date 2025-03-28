@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import interact from "interactjs";
+
 interface tabInterface {
   name: string,
   id: number
@@ -28,6 +30,7 @@ const dragTab = (tab: tabInterface): void => {
 }
 
 const tabsContainer = ref<HTMLElement | null>(null);
+const tabElems = ref<Array<HTMLElement> | null>([]);
 
 const scrollHorizontally = (e: WheelEvent): void => {
   if (!tabsContainer.value) {
@@ -41,8 +44,31 @@ const scrollHorizontally = (e: WheelEvent): void => {
 }
 
 onMounted(() => {
+  tabElems.value?.forEach((tabElem: HTMLElement): void => {
+    interact(tabElem)
+        .draggable({
+          inertia: false,
+          modifiers: [
+            interact.modifiers.restrictRect({
+              restriction: 'parent',
+              endOnly: true,
+            })
+          ],
 
-})
+          autoScroll: false,
+
+          // makes it movable only using the top thingy
+          allowFrom: ".tabs",
+
+          listeners: {
+            move: moveOnDrag,
+          }
+        })
+
+  })
+});
+
+
 </script>
 
 <template>
@@ -52,7 +78,7 @@ onMounted(() => {
         <img src="https://placehold.co/64" alt="icon" />
       </div>
       <div ref="tabsContainer" class="tabs" @wheel.prevent="scrollHorizontally">
-        <div v-for="tab in tabs" class="tab" @click="switchToTab(tab)">
+        <div v-for="tab in tabs" class="tab" @click="switchToTab(tab)" >
           <p>b b b b b</p>
         </div>
       </div>
