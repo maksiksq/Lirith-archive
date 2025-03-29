@@ -103,6 +103,13 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
   await loadShelves();
 }
 
+const screenToWorld = (x: number, y: number): any => {
+  return {
+    wX: Math.round((x - translateX.value) / (gridSize.value * scale.value)),
+    wY: Math.round((y - translateY.value) / (gridSize.value * scale.value)),
+  };
+}
+
 const scale = ref(1)
 const translateX = ref(0)
 const translateY = ref(0)
@@ -143,9 +150,6 @@ const drawGrid = ():void => {
 
   ctx.stroke()
 
-  const worldX = worldElementPos.value.x + translateX.value;
-  const worldY = worldElementPos.value.y + translateY.value;
-
   // adding coordinates to each cell
   if (ifNumbered.value) {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
@@ -153,8 +157,8 @@ const drawGrid = ():void => {
 
     for (let x = offsetX; x < width; x += gridSize.value) {
       for (let y = offsetY; y < height; y += gridSize.value) {
-        const gridCoords = convertPosToGridCoords(worldX, worldY);
-        ctx.fillText(`${gridCoords.x} ; ${gridCoords.y}`, x + 5, y + 15);
+        const gridCoords = screenToWorld(x, y);
+        ctx.fillText(`${gridCoords.wX} ; ${gridCoords.wY}`, x + 5, y + 15);
       }
     }
   }
@@ -280,6 +284,9 @@ interface dropPosInterface {
 
 const handleDroppedShelf = (pos: dropPosInterface): void => {
   const gridCoords = convertPosToGridCoords(pos.dropX, pos.dropY);
+
+  console.log("scr to wrld");
+  console.log(screenToWorld(pos.dropX, pos.dropY));
 
   console.log("original pos")
   console.log(pos.dropX, pos.dropY);
