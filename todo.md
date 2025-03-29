@@ -10,6 +10,7 @@
 - [ ] Think of limiting the infinispace or provide navigation for said infinispace
 - [ ] Come up with scaling per x 
 - [ ] Dots instead of lines
+- [ ] Add laptop touchpad controls
 ### LibraryFloatie.vue
 - [ ] Make items draggable onto the grid
 - [ ] Try out different easings and maybe bring back inertia cause it was kinda cool
