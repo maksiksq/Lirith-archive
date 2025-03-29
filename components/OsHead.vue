@@ -97,7 +97,7 @@ onMounted(() => {
 
 <template>
   <header>
-    <div class="main-cont">
+    <div class="header-cont">
       <div class="icon">
         <img src="https://placehold.co/64" alt="icon" />
       </div>
@@ -111,12 +111,14 @@ onMounted(() => {
       </div>
     </div>
     <div class="puff"></div>
+
   </header>
 </template>
 
 <style scoped lang="scss">
 header {
-  .main-cont {
+  position: relative;
+  .header-cont {
     width: 100%;
 
     display: flex;
@@ -127,7 +129,7 @@ header {
     background-color: #131313;
 
     // linked to ui top
-    height: 2.5vw;
+    height: 3.5vw;
 
     div {
       height: 100%;
@@ -162,6 +164,9 @@ header {
       white-space: nowrap;
 
       .tab {
+        // in the future replace this with "im a very long tab na-..."
+        overflow-x: hidden;
+
         min-width: 15vw;
 
         display: flex;
@@ -171,15 +176,16 @@ header {
         width: 15vw;
         margin-left: 0.3vw;
         margin-right: 0.3vw;
-
         height: 80%;
 
         border-radius: 6px 6px 0 0;
 
         cursor: pointer;
 
-        .p {
+        p {
+          margin-bottom: 1vw;
           pointer-events: none;
+
         }
       }
 
@@ -202,7 +208,12 @@ header {
     }
   }
   .puff {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
     height: 1vw;
+    width: 100vw;
     background-color: #0F0F0F;
 
     border-bottom: 1px white solid;
