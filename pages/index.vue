@@ -12,6 +12,8 @@ const size = ref(75)
 const gridSize = ref(75)
 const gridSizeUnscaled = ref(75)
 
+const ifNumbered = ref(false);
+
 interface ShelfDataObjectInterface {
   id: number;
   x: number;
@@ -107,7 +109,7 @@ const startY = ref(0)
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
-const drawGrid = () => {
+const drawGrid = ():void => {
   if (!canvas.value) return
   const ctx = canvas.value.getContext('2d')
   if (!ctx) return
@@ -137,6 +139,20 @@ const drawGrid = () => {
   }
 
   ctx.stroke()
+
+  // adding coordinates to each cell
+  if (ifNumbered.value) {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.font = `${Math.max(10, gridSize.value / 4)}px Arial`;
+
+    for (let x = offsetX; x < width; x += gridSize.value) {
+      for (let y = offsetY; y < height; y += gridSize.value) {
+        const gridCoords = convertPosToGridCoords(x, y);
+        ctx.fillText(`${gridCoords.x} ; ${gridCoords.y}`, x + 5, y + 15);
+      }
+    }
+  }
+
   updatePositions()
 }
 
@@ -261,11 +277,16 @@ const handleDroppedShelf = (pos: dropPosInterface): void => {
 
   addShelf(gridCoords.x, gridCoords.y);
 }
+
+const enableCoordsOnGreed = (): void => {
+  ifNumbered.value = !ifNumbered.value;
+}
+
 </script>
 
 <template>
   <div class="buttonWrap">
-<!--    <button @click="handleTest">add crimes</button>-->
+    <button @click="enableCoordsOnGreed">enable crimes</button>
 <!--    <button @click="loadShelves">initialize crimes</button>-->
 <!--    <button @click="purge">clean the db</button>-->
 <!--    <button @click="updatePositions">rerender</button>-->
