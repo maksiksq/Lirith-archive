@@ -103,7 +103,7 @@ onMounted(() => {
               const dropX = e.clientX;
               const dropY = e.clientY;
 
-              emit("droppedShelf", [dropX, dropY]);
+              emit("droppedShelf", {dropX: dropX, dropY: dropY});
             }
           }
         })

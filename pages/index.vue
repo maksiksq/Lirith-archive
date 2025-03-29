@@ -71,16 +71,25 @@ async function findMaxShelfId(): Promise<number> {
   return Math.max(...ids);
 }
 
-async function handleTest(): Promise<void> {
+async function addShelf(gridXPos: number | null, gridYPos: number | null, id: number | null = null): Promise<void> {
   const maxShelfId = ref(await findMaxShelfId());
   if (maxShelfId.value === -Infinity) {
     maxShelfId.value = 0;
   }
 
+  if (gridXPos === null) {
+    console.error("Oh noie, no gridXPos value found, defaulting to 1.")
+    gridXPos = 1;
+  }
+  if (gridYPos === null) {
+    console.error("Oh noie, no gridYPos value found, defaulting to 1.")
+    gridYPos = 1;
+  }
+
   const newShelf = {
     id: maxShelfId.value + 1,
-    x: gridSizeUnscaled.value,
-    y: gridSizeUnscaled.value * maxShelfId.value + 1,
+    x: gridSizeUnscaled.value * gridXPos,
+    y: gridSizeUnscaled.value * gridYPos,
     isRad: false,
     isIdkSomething: false,
   };
@@ -242,13 +251,15 @@ onMounted(async () => {
   window.addEventListener('resize', resizeCanvas)
 })
 
+interface dropPosInterface {
+  dropX: number,
+  dropY: number
+}
 
-const handleDroppedShelf = (pos: Array<number>): void => {
-  const dropX = ref(pos[0]);
-  const dropY = ref(pos[1]);
+const handleDroppedShelf = (pos: dropPosInterface): void => {
+  const gridCoords = convertPosToGridCoords(pos.dropX, pos.dropY);
 
-
-  //
+  addShelf(gridCoords.x, gridCoords.y);
 }
 </script>
 
