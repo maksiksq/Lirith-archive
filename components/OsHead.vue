@@ -25,8 +25,24 @@ const switchToTab = (tab: tabInterface): void => {
   // q PLACEHOLDER
 }
 
-const dragTab = (tab: tabInterface): void => {
-  console.log("hoi")
+// no idea what the type is so have this instead
+type VueDragableEventIsh = {
+  target: EventTarget & HTMLElement
+  dx: number
+  dy: number
+}
+
+const dragTab = (e: VueDragableEventIsh): void => {
+  const target = e.target as HTMLElement;
+
+  if (!target) return;
+
+  const x = ref((parseFloat(target.getAttribute('data-x') ?? '0')) + e.dx)
+  const y = ref((parseFloat(target.getAttribute('data-y') ?? '0')) + e.dy)
+
+  target.style.transform = `translateX(${x.value}px)`
+
+  target.setAttribute('data-x', x.value)
 }
 
 const tabsContainer = ref<HTMLElement | null>(null);
