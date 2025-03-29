@@ -80,7 +80,8 @@ const makeEachTabDraggable = (): void => {
 
             listeners: {
               move: dragTab,
-            }
+            },
+            cursorChecker: () => "default"
           })
 
     })
@@ -180,7 +181,7 @@ header {
 
         border-radius: 6px 6px 0 0;
 
-        cursor: pointer;
+
 
         p {
           margin-bottom: 1vw;
