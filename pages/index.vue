@@ -239,6 +239,10 @@ async function updatePositions() {
     const worldX = worldElementPos.value.x + parseInt(currentShelfData.x);
     const worldY = worldElementPos.value.y + parseInt(currentShelfData.y);
 
+
+    //     screenX.value = parseInt(currentShelfData.x)*gridSize.value;
+    // screenY.value = parseInt(currentShelfData.x)*gridSize.value;
+    //
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
