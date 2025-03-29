@@ -15,7 +15,6 @@
 ### OsHead.vue
 - [x] Add tabs, maybe???
 - [ ] Make tabs work
-- [ ] Add tabs, maybe???
 - [ ] Possibly add another tab for planning and etc. in the future. If I actually need it though.
 - [ ] Animate tabs smh toooo???
 

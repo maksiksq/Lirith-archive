@@ -185,7 +185,7 @@ header {
         p {
           margin-bottom: 1vw;
           pointer-events: none;
-
+          user-select: none;
         }
       }
 
