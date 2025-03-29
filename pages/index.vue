@@ -248,6 +248,7 @@ const handleDroppedShelf = (pos: Array<number>): void => {
   const dropY = ref(pos[1]);
 
 
+  //
 }
 </script>
 
