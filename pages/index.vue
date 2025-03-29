@@ -4,7 +4,7 @@ import Shelf from '~/components/Shelf.vue';
 
 
 import {saveShelf, deleteShelf, getShelf, getAllShelves, clearShelves} from "~/utils/indexedDB";
-import IndexHud from "~/components/IndexHud.vue";
+import LibraryFloatie from "~/components/LibraryFloatie.vue";
 
 const shelves = ref([])
 
@@ -253,7 +253,9 @@ onMounted(async () => {
 <!--    <button @click="updatePositions">rerender</button>-->
 <!--    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>-->
   </div>
-  <IndexHud></IndexHud>
+  <div class="ui-container">
+    <LibraryFloatie></LibraryFloatie>
+  </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"
        @wheel.prevent="zoom">

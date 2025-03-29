@@ -10,7 +10,7 @@ onMounted(() => {
   <div>
     <NuxtLayout>
       <OsHead></OsHead>
-      <main ref="main">
+      <main ref="main" class="main">
         <NuxtPage/>
       </main>
     </NuxtLayout>

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import interact from "interactjs";
 
+const emit = defineEmits({
+  dragX: null,
+  dragY: null
+})
+
 const mainElem: HTMLElement | undefined = inject("mainElem");
 
 // Static array for the shelf library entries
@@ -44,7 +49,7 @@ onMounted(() => {
         inertia: false,
         modifiers: [
           interact.modifiers.restrictRect({
-            restriction: 'parent',
+            restriction: '.main',
             endOnly: true,
           })
         ],
@@ -62,7 +67,7 @@ onMounted(() => {
   // this keeps it working with translateY(-50%)
   const target = uiFloatieLibrary.value;
   const height = ref(target.offsetHeight);
-  const y = ref((parseFloat(target.getAttribute('data-y') ?? '0') - height.value/2))
+  const y = ref((parseFloat(target.getAttribute('data-y') ?? '0') - height.value / 2))
   target.setAttribute('data-y', y.value.toString())
 
   entry.value.forEach((el: HTMLElement | null) => {
@@ -97,6 +102,11 @@ onMounted(() => {
                 target.setAttribute('data-y', initialY.toString());
                 target.style.transition = "";
               }, 300);
+
+              const dropX = e.clientX;
+              const dropY = e.clientY;
+
+              emit(dropX, dropY);
             }
           }
         })
@@ -136,7 +146,7 @@ onMounted(() => {
 
   background-color: #161616;
   border-radius: 4px;
-  border: 3px solid white;
+  border: 1px solid white;
 
   display: flex;
   flex-direction: column;
@@ -149,7 +159,7 @@ onMounted(() => {
     align-items: flex-end;
 
     height: 6%;
-    border-bottom: 3px solid white;
+    border-bottom: 1px solid white;
   }
 
   .library {

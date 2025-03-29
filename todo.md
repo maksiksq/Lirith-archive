@@ -11,7 +11,9 @@
 - [ ] Come up with scaling per x 
 - [ ] Dots instead of lines
 ### LibraryFloatie.vue
+- [ ] Make items draggable onto the grid
 - [ ] Try out different easings and maybe bring back inertia cause it was kinda cool
+- [ ] Possibly make it into a sidebar instead of a floating because simplicity
 ### OsHead.vue
 - [x] Add tabs, maybe???
 - [ ] Make tabs work
