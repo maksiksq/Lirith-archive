@@ -242,7 +242,13 @@ onMounted(async () => {
   window.addEventListener('resize', resizeCanvas)
 })
 
-// damn intellij ide menumonics are amazing, I am speed
+
+const handleDroppedShelf = (pos: Array<number>): void => {
+  const dropX = ref(pos[0]);
+  const dropY = ref(pos[1]);
+
+
+}
 </script>
 
 <template>
@@ -254,7 +260,7 @@ onMounted(async () => {
 <!--    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>-->
   </div>
   <div class="ui-container">
-    <LibraryFloatie></LibraryFloatie>
+    <LibraryFloatie @dropped-shelf="(pos) => {handleDroppedShelf(pos)}"></LibraryFloatie>
   </div>
   <div class="grid-container" ref="grid"
        @mousedown="startPan"

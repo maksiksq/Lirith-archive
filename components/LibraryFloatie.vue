@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import interact from "interactjs";
 
-const emit = defineEmits({
-  dragX: null,
-  dragY: null
-})
+const emit = defineEmits(["droppedShelf"])
 
 const mainElem: HTMLElement | undefined = inject("mainElem");
 
@@ -106,7 +103,7 @@ onMounted(() => {
               const dropX = e.clientX;
               const dropY = e.clientY;
 
-              emit(dropX, dropY);
+              emit("droppedShelf", [dropX, dropY]);
             }
           }
         })
