@@ -24,10 +24,10 @@ function moveOnDrag(e: any) {
   const x = ref((parseFloat(target.getAttribute('data-x') ?? '0')) + e.dx)
   const y = ref((parseFloat(target.getAttribute('data-y') ?? '0')) + e.dy)
 
-  target.style.transform = 'translate(' + x.value + 'px, ' + y.value + 'px)'
+  target.style.transform = `translate(${x.value}px, ${y.value}px)`
 
-  target.setAttribute('data-x', x.value)
-  target.setAttribute('data-y', y.value)
+  target.setAttribute('data-x', x.value.toString())
+  target.setAttribute('data-y', y.value.toString())
 }
 
 const entry = ref([])

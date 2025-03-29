@@ -42,7 +42,7 @@ const dragTab = (e: VueDragableEventIsh): void => {
 
   target.style.transform = `translateX(${x.value}px)`
 
-  target.setAttribute('data-x', x.value)
+  target.setAttribute('data-x', x.value.toString())
 }
 
 const tabsContainer = ref<HTMLElement | null>(null);
