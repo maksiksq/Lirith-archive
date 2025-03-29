@@ -96,6 +96,9 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
     isIdkSomething: false,
   };
 
+  console.log("noroi");
+  console.log(newShelf.x, newShelf.y);
+
   await saveShelf(newShelf);
   await loadShelves();
 }
@@ -140,6 +143,9 @@ const drawGrid = ():void => {
 
   ctx.stroke()
 
+  const worldX = worldElementPos.value.x + translateX.value;
+  const worldY = worldElementPos.value.y + translateY.value;
+
   // adding coordinates to each cell
   if (ifNumbered.value) {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
@@ -147,7 +153,7 @@ const drawGrid = ():void => {
 
     for (let x = offsetX; x < width; x += gridSize.value) {
       for (let y = offsetY; y < height; y += gridSize.value) {
-        const gridCoords = convertPosToGridCoords(x, y);
+        const gridCoords = convertPosToGridCoords(worldX, worldY);
         ctx.fillText(`${gridCoords.x} ; ${gridCoords.y}`, x + 5, y + 15);
       }
     }
@@ -275,11 +281,17 @@ interface dropPosInterface {
 const handleDroppedShelf = (pos: dropPosInterface): void => {
   const gridCoords = convertPosToGridCoords(pos.dropX, pos.dropY);
 
+  console.log("original pos")
+  console.log(pos.dropX, pos.dropY);
+  console.log("grid coords")
+  console.log(gridCoords)
   addShelf(gridCoords.x, gridCoords.y);
 }
 
 const enableCoordsOnGreed = (): void => {
   ifNumbered.value = !ifNumbered.value;
+
+  drawGrid()
 }
 
 </script>
