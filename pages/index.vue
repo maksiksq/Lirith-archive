@@ -137,7 +137,7 @@ const drawGrid = ():void => {
 
   gridSize.value = size.value * scale.value
 
-  // converting the global offset to grid coordinates
+  // converting the global offset to grid cell numbers
   const gridOffset = convertPosToGridCoords(translateX.value, translateY.value);
 
   const offsetX = gridOffset.x;
@@ -148,6 +148,8 @@ const drawGrid = ():void => {
     console.log(translateX.value)
     return;
   }
+  console.log("grid offset")
+  console.log(gridOffset)
 
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.lineWidth = 1
@@ -173,10 +175,11 @@ const drawGrid = ():void => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = `${Math.max(10, gridSize.value / 4)}px Arial`;
 
-    for (let x = offsetX, uX = offsetX; x < width; x += gridSize.value, uX += gridSizeUnscaled.value) {
-      for (let y = offsetY, uY = offsetY; y < height; y += gridSize.value, uY += gridSizeUnscaled.value) {
-        const gridCoords = screenToWorld(uX, uY);
-        ctx.fillText(`${gridCoords.wX} ; ${gridCoords.wY}`, x + 5, y + 15);
+    console.log("offsetX ", offsetX);
+    for (let x = 0; x < offsetX; x += 1) {
+      for (let y = 0; y < offsetY; y += 1) {
+        console.log("x ", x);
+        ctx.fillText(`${x} ; ${y}`, x + 5, y + 15);
       }
     }
   }
