@@ -122,7 +122,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
   function determine(val: number | null) {
     if (val === null) return null;
-    return val % gridSize.value;
+    return Math.round(val/gridSize.value);
   }
 
   return {x: determine(x), y: determine(y)};
@@ -137,20 +137,14 @@ const drawGrid = ():void => {
 
   gridSize.value = size.value * scale.value
 
-  // converting the global offset to grid cell numbers
-  const gridOffset = convertPosToGridCoords(translateX.value, translateY.value);
-
-  const offsetX = gridOffset.x;
-  const offsetY = gridOffset.y;
+  // offset
+  const offsetX = translateX.value % gridSize.value;
+  const offsetY = translateY.value % gridSize.value;
 
   if (offsetX === null || offsetY === null) {
-    console.log(gridOffset)
-    console.log(translateX.value)
+    console.warn("oi")
     return;
   }
-  console.log("grid offset")
-  console.log(gridOffset)
-
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.lineWidth = 1
 
@@ -175,11 +169,21 @@ const drawGrid = ():void => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = `${Math.max(10, gridSize.value / 4)}px Arial`;
 
-    console.log("offsetX ", offsetX);
-    for (let x = 0; x < offsetX; x += 1) {
-      for (let y = 0; y < offsetY; y += 1) {
-        console.log("x ", x);
-        ctx.fillText(`${x} ; ${y}`, x + 5, y + 15);
+    const gridCoords: {x: number | null, y: number | null} = convertPosToGridCoords(translateX.value, translateY.value);
+    if (gridCoords.x === null || gridCoords.y === null) {
+      return;
+    }
+
+    console.log("translates:", translateX.value, translateY.value);
+    console.log(gridCoords);
+
+    for (let x = 0; x < Math.abs(gridCoords.x); x += 1) {
+      console.log("haii");
+      console.log("x ", x);
+      console.log("gc ", gridCoords.y);
+      for (let y = 0; y < Math.abs(gridCoords.y); y += 1) {
+        console.log("y ", y);
+        ctx.fillText(`${x} ; ${y}`, x*gridSize.value + offsetX + 5, y*gridSize.value + offsetY + 15);
       }
     }
   }
