@@ -177,13 +177,12 @@ const drawGrid = ():void => {
     console.log("translates:", translateX.value, translateY.value);
     console.log(gridCoords);
 
-    for (let x = 0; x < Math.abs(gridCoords.x); x += 1) {
+    for (let x = offsetX; x < width; x += gridSize.value) {
       console.log("haii");
-      console.log("x ", x);
-      console.log("gc ", gridCoords.y);
-      for (let y = 0; y < Math.abs(gridCoords.y); y += 1) {
-        console.log("y ", y);
-        ctx.fillText(`${x} ; ${y}`, x*gridSize.value + offsetX + 5, y*gridSize.value + offsetY + 15);
+
+      for (let y = offsetY; y < height; y += gridSize.value) {
+        console.log("sleep", y, gridCoords.y)
+        ctx.fillText(`${gridCoords.x-Math.round(x/gridSize.value)} ; ${gridCoords.y-Math.round(y/gridSize.value)}`, x + 5, y + 15);
       }
     }
   }
