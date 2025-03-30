@@ -119,6 +119,15 @@ const startY = ref(0)
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
+function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
+  function determine(val: number | null) {
+    if (val === null) return null;
+    return val % gridSize.value;
+  }
+
+  return {x: determine(x), y: determine(y)};
+}
+
 const drawGrid = ():void => {
   if (!canvas.value) return
   const ctx = canvas.value.getContext('2d')
@@ -128,8 +137,17 @@ const drawGrid = ():void => {
 
   gridSize.value = size.value * scale.value
 
-  const offsetX = translateX.value % gridSize.value
-  const offsetY = translateY.value % gridSize.value
+  // converting the global offset to grid coordinates
+  const gridOffset = convertPosToGridCoords(translateX.value, translateY.value);
+
+  const offsetX = gridOffset.x;
+  const offsetY = gridOffset.y;
+
+  if (offsetX === null || offsetY === null) {
+    console.log(gridOffset)
+    console.log(translateX.value)
+    return;
+  }
 
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.lineWidth = 1
@@ -260,15 +278,6 @@ async function updatePositions() {
 
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
   })
-}
-
-function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
-  function determine(val: number | null) {
-    if (!val) return null;
-    return Math.round(val / gridSize.value);
-  }
-
-  return {x: determine(x), y: determine(y)};
 }
 
 // Items of each shelf for now just like this
