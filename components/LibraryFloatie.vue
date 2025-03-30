@@ -18,7 +18,7 @@ const library = ref([
 
 const uiFloatieLibrary = ref<HTMLElement | null>(null)
 
-function moveOnDrag(e: any) {
+const moveOnDrag = (e: any): void => {
   const target = e.target as HTMLElement;
 
   if (!target) return;
@@ -37,6 +37,7 @@ const entry = ref([])
 onMounted(() => {
   if (!mainElem) {
     console.warn("This error is not real. If the main does not exist everything exploded way before the inception of universe and the sfc right here. This line of code will probably never be run, left to rust and get washed away by rain in neverity. But TypeScript is happy, so let's all be happy and ignore this line, forever, period.")
+    // it triggers and does so pretty often lmao
   }
   if (!uiFloatieLibrary.value) return;
 
