@@ -90,8 +90,8 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
 
   const newShelf = {
     id: maxShelfId.value + 1,
-    x: gridSizeUnscaled.value * gridXPos,
-    y: gridSizeUnscaled.value * gridYPos,
+    x: gridXPos,
+    y: gridYPos,
     isRad: false,
     isIdkSomething: false,
   };
@@ -236,13 +236,16 @@ async function updatePositions() {
       return;
     }
 
-    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x);
-    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y);
+    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x)*gridSize.value;
+    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y)*gridSize.value;
 
 
     //     screenX.value = parseInt(currentShelfData.x)*gridSize.value;
-    // screenY.value = parseInt(currentShelfData.x)*gridSize.value;
-    //
+    // screenY.value = parseInt(currentShelfData.y)*gridSize.value;
+
+    // screenX.value = worldX * scale.value + translateX.value
+    // screenY.value = worldY * scale.value + translateY.value
+
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
