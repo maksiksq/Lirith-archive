@@ -103,14 +103,14 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
   await loadShelves();
 }
 
-const screenToWorld = (x: number, y: number): any => {
-  return {
-    wX: Math.round((x - translateX.value) / (gridSize.value * scale.value)),
-    wY: Math.round((y - translateY.value) / (gridSize.value * scale.value)),
-  };
+const screenToWorld = (x: number, y: number): { wX: number; wY: number } => {
+  const wX = Math.round((x - translateX.value) / gridSizeUnscaled.value);
+  const wY = Math.round((y - translateY.value) / gridSizeUnscaled.value);
+  return { wX, wY };
 }
 
 const scale = ref(1)
+// global offset from 0 0
 const translateX = ref(0)
 const translateY = ref(0)
 const isPanning = ref(false)
@@ -155,9 +155,9 @@ const drawGrid = ():void => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = `${Math.max(10, gridSize.value / 4)}px Arial`;
 
-    for (let x = offsetX; x < width; x += gridSize.value) {
-      for (let y = offsetY; y < height; y += gridSize.value) {
-        const gridCoords = screenToWorld(x, y);
+    for (let x = offsetX, uX = offsetX; x < width; x += gridSize.value, uX += gridSizeUnscaled.value) {
+      for (let y = offsetY, uY = offsetY; y < height; y += gridSize.value, uY += gridSizeUnscaled.value) {
+        const gridCoords = screenToWorld(uX, uY);
         ctx.fillText(`${gridCoords.wX} ; ${gridCoords.wY}`, x + 5, y + 15);
       }
     }
@@ -178,6 +178,12 @@ const startPan = (event: any) => {
   isPanning.value = true
   startX.value = event.clientX - translateX.value
   startY.value = event.clientY - translateY.value
+  console.log("click val")
+  console.log(event.clientX, event.clientY)
+  console.log("Translate val")
+  console.log(translateX.value, translateY.value)
+  console.log("Start val")
+  console.log(startX.value, startY.value)
   window.addEventListener('mousemove', pan)
   window.addEventListener('mouseup', stopPan)
 }//
@@ -204,8 +210,8 @@ const zoom = (e: any) => {
 
 const worldElementPos = ref({x: 450, y: 450})
 
-const screenX = ref(450)
-const screenY = ref(450)
+const screenX = ref(0)
+const screenY = ref(0)
 
 interface ShelfObject {
   shelfWrapper: HTMLElement | null;
@@ -229,6 +235,8 @@ async function updatePositions() {
     // also cfg that the data is stringified by HTML
     const currentShelfData = Object.fromEntries(Array.from(el.attributes, attr => [attr.name, attr.value]));
 
+
+
     const currentId: number = parseInt(currentShelfData.id);
 
     if (!currentShelfData) {
@@ -236,15 +244,16 @@ async function updatePositions() {
       return;
     }
 
-    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x)*gridSize.value;
-    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y)*gridSize.value;
-
-
+    // old
+    //
     //     screenX.value = parseInt(currentShelfData.x)*gridSize.value;
     // screenY.value = parseInt(currentShelfData.y)*gridSize.value;
 
     // screenX.value = worldX * scale.value + translateX.value
     // screenY.value = worldY * scale.value + translateY.value
+
+    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x)*gridSizeUnscaled.value;
+    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y)*gridSizeUnscaled.value;
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
@@ -271,6 +280,8 @@ const items = ref([
 
 
 onMounted(async () => {
+  // clearShelves()
+
   if (!import.meta.client) {
     console.warn('NOT RUNNING ON CLIENT (SOMEHOW)');
     return
@@ -290,7 +301,7 @@ interface dropPosInterface {
 }
 
 const handleDroppedShelf = (pos: dropPosInterface): void => {
-  const gridCoords = convertPosToGridCoords(pos.dropX, pos.dropY);
+  const worldCoords = screenToWorld(pos.dropX, pos.dropY);
 
   console.log("scr to wrld");
   console.log(screenToWorld(pos.dropX, pos.dropY));
@@ -298,8 +309,8 @@ const handleDroppedShelf = (pos: dropPosInterface): void => {
   console.log("original pos")
   console.log(pos.dropX, pos.dropY);
   console.log("grid coords")
-  console.log(gridCoords)
-  addShelf(gridCoords.x, gridCoords.y);
+  console.log(worldCoords)
+  addShelf(worldCoords.wX, worldCoords.wY);
 }
 
 const enableCoordsOnGreed = (): void => {
