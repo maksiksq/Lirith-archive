@@ -16,8 +16,8 @@ async function initDB() {
 
 interface ShelfDataObjectInterface {
     id: number;
-    x: number;
-    y: number;
+    gX: number;
+    gY: number;
     isRad: boolean;
     isIdkSomething: boolean;
 }

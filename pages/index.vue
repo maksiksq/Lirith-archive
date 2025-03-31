@@ -16,8 +16,8 @@ const ifNumbered = ref(false);
 
 interface ShelfDataObjectInterface {
   id: number;
-  x: number;
-  y: number;
+  gX: number;
+  gY: number;
   isRad: boolean;
   isIdkSomething: boolean;
 }
@@ -46,8 +46,8 @@ async function loadShelves(): Promise<any> {
     receivedShelfData.value = [
       {
         id: -999,
-        x: gridSize.value,
-        y: gridSize.value * 4,
+        gX: 1,
+        gY: 1,
         isRad: false,
         isIdkSomething: false,
       },
@@ -59,7 +59,7 @@ async function loadShelves(): Promise<any> {
     shelfData.value.push(shelf.contents);
   }
   await updatePositions();
-  console.info('Loaded shelves!')
+  console.warn('Loaded shelves!')
 }
 
 async function findMaxShelfId(): Promise<number> {
@@ -90,8 +90,8 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
 
   const newShelf = {
     id: maxShelfId.value + 1,
-    x:gridXPos,
-    y: gridYPos,
+    gX: gridXPos,
+    gY: gridYPos,
     isRad: false,
     isIdkSomething: false,
   };
@@ -100,10 +100,19 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
   await loadShelves();
 }
 
-const screenToWorld = (x: number, y: number): { wX: number; wY: number } => {
-  const wX = Math.round(((x - translateX.value) / gridSizeUnscaled.value) / scale.value);
-  const wY = Math.round(((y - translateY.value) / gridSizeUnscaled.value) / scale.value);
-  return { wX, wY };
+function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
+  function determine(val: number | null) {
+    if (val === null) return null;
+    return Math.round(val / gridSize.value);
+  }
+
+  return {gX: determine(x), gY: determine(y)};
+}
+
+const convertScreenToGridCoords = (x: number, y: number): { gX: number; gY: number } => {
+  const gX = Math.round(((x - translateX.value) / gridSizeUnscaled.value) / scale.value);
+  const gY = Math.round(((y - translateY.value) / gridSizeUnscaled.value) / scale.value);
+  return {gX, gY};
 }
 
 const scale = ref(1)
@@ -116,16 +125,7 @@ const startY = ref(0)
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
-function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
-  function determine(val: number | null) {
-    if (val === null) return null;
-    return Math.round(val/gridSize.value);
-  }
-
-  return {x: determine(x), y: determine(y)};
-}
-
-const drawGrid = ():void => {
+const drawGrid = (): void => {
   if (!canvas.value) return
   const ctx = canvas.value.getContext('2d')
   if (!ctx) return
@@ -166,14 +166,17 @@ const drawGrid = ():void => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = `${Math.max(10, gridSize.value / 4)}px Arial`;
 
-    const gridCoords: {x: number | null, y: number | null} = convertPosToGridCoords(translateX.value, translateY.value);
-    if (gridCoords.x === null || gridCoords.y === null) {
+    const gridCoords: {
+      gX: number | null,
+      gY: number | null
+    } = convertPosToGridCoords(translateX.value, translateY.value);
+    if (gridCoords.gX === null || gridCoords.gY === null) {
       return;
     }
 
     for (let x = offsetX; x < width; x += gridSize.value) {
       for (let y = offsetY; y < height; y += gridSize.value) {
-        ctx.fillText(`${gridCoords.x-Math.round(x/gridSize.value)} ; ${gridCoords.y-Math.round(y/gridSize.value)}`, x + 5, y + 15);
+        ctx.fillText(`${gridCoords.gX - Math.round(x / gridSize.value)} ; ${gridCoords.gY - Math.round(y / gridSize.value)}`, x + 5, y + 15);
       }
     }
   }
@@ -244,7 +247,6 @@ async function updatePositions() {
     const currentShelfData = Object.fromEntries(Array.from(el.attributes, attr => [attr.name, attr.value]));
 
 
-
     const currentId: number = parseInt(currentShelfData.id);
 
     if (!currentShelfData) {
@@ -252,17 +254,15 @@ async function updatePositions() {
       return;
     }
 
-    // old
-    //
-    //     screenX.value = parseInt(currentShelfData.x)*gridSize.value;
-    // screenY.value = parseInt(currentShelfData.y)*gridSize.value;
+    // !IMPORTANT AS HELL!   HTML LOWERCASES ALL ATTRIBUTES, gX -> gx
+    const worldX = parseInt(currentShelfData.gx) * gridSizeUnscaled.value;
+    const worldY = parseInt(currentShelfData.gy) * gridSizeUnscaled.value;
 
-    // screenX.value = worldX * scale.value + translateX.value
-    // screenY.value = worldY * scale.value + translateY.value
+    console.log("bonkers af")
+    console.log(el)
+    console.log(currentShelfData.gx, currentShelfData.gy)
+    console.log(worldX, worldY)
 
-
-    const worldX = parseInt(currentShelfData.x)*gridSizeUnscaled.value;
-    const worldY = parseInt(currentShelfData.y)*gridSizeUnscaled.value;
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
@@ -301,9 +301,9 @@ interface dropPosInterface {
 }
 
 const handleDroppedShelf = (pos: dropPosInterface): void => {
-  const worldCoords = screenToWorld(pos.dropX, pos.dropY);
+  const worldCoords = convertScreenToGridCoords(pos.dropX, pos.dropY);
 
-  addShelf(worldCoords.wX, worldCoords.wY);
+  addShelf(worldCoords.gX, worldCoords.gY);
 }
 
 const enableCoordsOnGreed = (): void => {
@@ -317,10 +317,10 @@ const enableCoordsOnGreed = (): void => {
 <template>
   <div class="buttonWrap">
     <button @click="enableCoordsOnGreed">enable crimes</button>
-<!--    <button @click="loadShelves">initialize crimes</button>-->
-<!--    <button @click="purge">clean the db</button>-->
-<!--    <button @click="updatePositions">rerender</button>-->
-<!--    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>-->
+    <!--    <button @click="loadShelves">initialize crimes</button>-->
+    <!--    <button @click="purge">clean the db</button>-->
+    <!--    <button @click="updatePositions">rerender</button>-->
+    <!--    <button @click="console.log(convertPosToGridCoords(null, 355))">convert coords</button>-->
   </div>
   <div class="ui-container">
     <LibraryFloatie @dropped-shelf="(pos) => {handleDroppedShelf(pos)}"></LibraryFloatie>
