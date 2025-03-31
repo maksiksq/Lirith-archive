@@ -167,17 +167,14 @@ const drawGrid = (): void => {
   // }
 
   // the great dotter
+  ctx.beginPath();
   for (let x = offsetX; x < width; x += gridSize.value) {
     for (let y = offsetY; y < height; y += gridSize.value) {
-      ctx.moveTo(x, y)
-      ctx.lineTo(x+5, y+5)
+      ctx.rect(x, y, 3 * scale.value, 3 * scale.value);
     }
   }
-
-
-
-
-  ctx.stroke()
+  ctx.fillStyle = '#BDBDBD';
+  ctx.fill();
 
   // adding coordinates to each cell
   if (ifNumbered.value) {
