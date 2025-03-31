@@ -100,16 +100,7 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
   await loadShelves();
 }
 
-function convertPosToGridCoords(x: number | null = null, y: number | null = null) {
-  function determine(val: number | null) {
-    if (val === null) return null;
-    return Math.round(val / gridSize.value);
-  }
-
-  return {gX: determine(x), gY: determine(y)};
-}
-
-const convertScreenToGridCoords = (x: number, y: number): { gX: number; gY: number } => {
+const convertToGridCoords = (x: number, y: number): { gX: number; gY: number } => {
   const gX = Math.round(((x - translateX.value) / gridSizeUnscaled.value) / scale.value);
   const gY = Math.round(((y - translateY.value) / gridSizeUnscaled.value) / scale.value);
   return {gX, gY};
@@ -169,7 +160,7 @@ const drawGrid = (): void => {
     const gridCoords: {
       gX: number | null,
       gY: number | null
-    } = convertPosToGridCoords(translateX.value, translateY.value);
+    } = convertToGridCoords(translateX.value, translateY.value);
     if (gridCoords.gX === null || gridCoords.gY === null) {
       return;
     }
@@ -297,10 +288,11 @@ interface dropPosInterface {
 }
 
 const handleDroppedShelf = (pos: dropPosInterface): void => {
-  const gridCoords = convertScreenToGridCoords(pos.dropX, pos.dropY);
+  const gridCoords = convertToGridCoords(pos.dropX, pos.dropY);
 
   console.log("drop coords:", pos.dropX, pos.dropY)
-  console.log("worldCoords ")
+  console.log("worldCoords:", gridCoords.gX, gridCoords.gY)
+  console.log("zoom:", scale.value)
 
   addShelf(gridCoords.gX, gridCoords.gY);
 }
