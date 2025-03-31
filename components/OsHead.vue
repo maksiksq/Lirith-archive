@@ -38,7 +38,6 @@ const dragTab = (e: VueDragableEventIsh): void => {
   if (!target) return;
 
   const x = ref((parseFloat(target.getAttribute('data-x') ?? '0')) + e.dx)
-  const y = ref((parseFloat(target.getAttribute('data-y') ?? '0')) + e.dy)
 
   target.style.transform = `translateX(${x.value}px)`
 

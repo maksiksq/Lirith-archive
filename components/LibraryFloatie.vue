@@ -55,7 +55,7 @@ onMounted(() => {
         autoScroll: false,
 
         // makes it movable only using the top thingy
-        allowFrom: ".tabs",
+        allowFrom: ".libTabs",
 
         listeners: {
           move: moveOnDrag,
@@ -117,7 +117,7 @@ onMounted(() => {
 
 <template>
   <div ref="uiFloatieLibrary" class="ui-floatie ui-floatie-library">
-    <div class="tabs">
+    <div class="libTabs">
       <div>tab1</div>
       <div>&nbsp;tab2</div>
     </div>
@@ -151,7 +151,7 @@ onMounted(() => {
 
   transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 0.95);
 
-  .tabs {
+  .libTabs {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
