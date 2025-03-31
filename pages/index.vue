@@ -179,7 +179,6 @@ const drawGrid = ():void => {
 
     for (let x = offsetX; x < width; x += gridSize.value) {
       console.log("haii");
-      //
 
       for (let y = offsetY; y < height; y += gridSize.value) {
         console.log("sleep", y, gridCoords.y)
