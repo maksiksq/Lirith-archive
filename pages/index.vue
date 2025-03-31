@@ -90,8 +90,8 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
 
   const newShelf = {
     id: maxShelfId.value + 1,
-    x: gridXPos,
-    y: gridYPos,
+    x: 4,
+    y: -4,
     isRad: false,
     isIdkSomething: false,
   };
@@ -174,14 +174,8 @@ const drawGrid = ():void => {
       return;
     }
 
-    console.log("translates:", translateX.value, translateY.value);
-    console.log(gridCoords);
-
     for (let x = offsetX; x < width; x += gridSize.value) {
-      console.log("haii");
-
       for (let y = offsetY; y < height; y += gridSize.value) {
-        console.log("sleep", y, gridCoords.y)
         ctx.fillText(`${gridCoords.x-Math.round(x/gridSize.value)} ; ${gridCoords.y-Math.round(y/gridSize.value)}`, x + 5, y + 15);
       }
     }
@@ -276,11 +270,19 @@ async function updatePositions() {
     // screenX.value = worldX * scale.value + translateX.value
     // screenY.value = worldY * scale.value + translateY.value
 
-    const worldX = worldElementPos.value.x + parseInt(currentShelfData.x)*gridSizeUnscaled.value;
-    const worldY = worldElementPos.value.y + parseInt(currentShelfData.y)*gridSizeUnscaled.value;
+
+    const worldX = parseInt(currentShelfData.x)*gridSizeUnscaled.value;
+    const worldY = parseInt(currentShelfData.y)*gridSizeUnscaled.value;
 
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
+
+    console.log("orig")
+    console.log(parseInt(currentShelfData.x), parseInt(currentShelfData.y))
+    console.log("wrld")
+    console.log(worldX, worldY)
+    console.log("scr")
+    console.log(screenX.value, screenY.value)
 
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
   })
