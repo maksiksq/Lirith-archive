@@ -255,15 +255,11 @@ async function updatePositions() {
     }
 
     // !IMPORTANT AS HELL!   HTML LOWERCASES ALL ATTRIBUTES, gX -> gx
+    // here we convert the grid coordinates to usable numbers
     const worldX = parseInt(currentShelfData.gx) * gridSizeUnscaled.value;
     const worldY = parseInt(currentShelfData.gy) * gridSizeUnscaled.value;
 
-    console.log("bonkers af")
-    console.log(el)
-    console.log(currentShelfData.gx, currentShelfData.gy)
-    console.log(worldX, worldY)
-
-
+    // here we scale the world coordinates and add an offset from 0 0 to determine coordinates on screen
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
@@ -301,9 +297,12 @@ interface dropPosInterface {
 }
 
 const handleDroppedShelf = (pos: dropPosInterface): void => {
-  const worldCoords = convertScreenToGridCoords(pos.dropX, pos.dropY);
+  const gridCoords = convertScreenToGridCoords(pos.dropX, pos.dropY);
 
-  addShelf(worldCoords.gX, worldCoords.gY);
+  console.log("drop coords:", pos.dropX, pos.dropY)
+  console.log("worldCoords ")
+
+  addShelf(gridCoords.gX, gridCoords.gY);
 }
 
 const enableCoordsOnGreed = (): void => {
