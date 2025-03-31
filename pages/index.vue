@@ -154,17 +154,28 @@ const drawGrid = (): void => {
 
   ctx.beginPath()
 
+  // for (let x = offsetX; x < width; x += gridSize.value) {
+  //   ctx.moveTo(x, 0)
+  //   ctx.lineTo(x, height)
+  //   // make it dots instead of lines
+  //   // ctx.fillRect(10,10,x,x);
+  // }
+  //
+  // for (let y = offsetY; y < height; y += gridSize.value) {
+  //   ctx.moveTo(0, y)
+  //   ctx.lineTo(width, y)
+  // }
+
+  // the great dotter
   for (let x = offsetX; x < width; x += gridSize.value) {
-    ctx.moveTo(x, 0)
-    ctx.lineTo(x, height)
-    // make it dots instead of lines
-    // ctx.fillRect(10,10,x,x);
+    for (let y = offsetY; y < height; y += gridSize.value) {
+      ctx.moveTo(x, y)
+      ctx.lineTo(x+5, y+5)
+    }
   }
 
-  for (let y = offsetY; y < height; y += gridSize.value) {
-    ctx.moveTo(0, y)
-    ctx.lineTo(width, y)
-  }
+
+
 
   ctx.stroke()
 
