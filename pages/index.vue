@@ -90,8 +90,8 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
 
   const newShelf = {
     id: maxShelfId.value + 1,
-    x: 4,
-    y: -4,
+    x:gridXPos,
+    y: gridYPos,
     isRad: false,
     isIdkSomething: false,
   };
@@ -104,8 +104,8 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
 }
 
 const screenToWorld = (x: number, y: number): { wX: number; wY: number } => {
-  const wX = Math.round((x - translateX.value) / gridSizeUnscaled.value);
-  const wY = Math.round((y - translateY.value) / gridSizeUnscaled.value);
+  const wX = Math.round(((x - translateX.value) / gridSizeUnscaled.value) / scale.value);
+  const wY = Math.round(((y - translateY.value) / gridSizeUnscaled.value) / scale.value);
   return { wX, wY };
 }
 
@@ -225,8 +225,6 @@ const zoom = (e: any) => {
   scale.value = newScale
   drawGrid()
 }
-
-const worldElementPos = ref({x: 450, y: 450})
 
 const screenX = ref(0)
 const screenY = ref(0)
