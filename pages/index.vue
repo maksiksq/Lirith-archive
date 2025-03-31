@@ -113,8 +113,12 @@ const convertToGridCoords = (x: number, y: number): { gX: number; gY: number } =
   console.log("PositionX in space before conversion", ((x - translateX.value)) / scale.value)
   console.log("PositionY in space before conversion", ((y - translateY.value)) / scale.value)
 
-  const gX = Math.floor(((x - translateX.value) / gridSizeUnscaled.value) / scale.value);
-  const gY = Math.floor(((y - translateY.value) / gridSizeUnscaled.value) / scale.value);
+  const adjustedX = ((x - translateX.value) / scale.value) / gridSizeUnscaled.value;
+  const adjustedY = ((y - translateY.value) / scale.value) / gridSizeUnscaled.value - 0.5;
+
+  const gX = Math.floor(adjustedX);
+  const gY = Math.floor(adjustedY);
+
   return {gX, gY};
 }
 
