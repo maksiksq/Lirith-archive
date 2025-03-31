@@ -96,9 +96,6 @@ async function addShelf(gridXPos: number | null, gridYPos: number | null, id: nu
     isIdkSomething: false,
   };
 
-  console.log("noroi");
-  console.log(newShelf.x, newShelf.y);
-
   await saveShelf(newShelf);
   await loadShelves();
 }
@@ -196,12 +193,7 @@ const startPan = (event: any) => {
   isPanning.value = true
   startX.value = event.clientX - translateX.value
   startY.value = event.clientY - translateY.value
-  console.log("click val")
-  console.log(event.clientX, event.clientY)
-  console.log("Translate val")
-  console.log(translateX.value, translateY.value)
-  console.log("Start val")
-  console.log(startX.value, startY.value)
+
   window.addEventListener('mousemove', pan)
   window.addEventListener('mouseup', stopPan)
 }//
@@ -275,13 +267,6 @@ async function updatePositions() {
     screenX.value = worldX * scale.value + translateX.value
     screenY.value = worldY * scale.value + translateY.value
 
-    console.log("orig")
-    console.log(parseInt(currentShelfData.x), parseInt(currentShelfData.y))
-    console.log("wrld")
-    console.log(worldX, worldY)
-    console.log("scr")
-    console.log(screenX.value, screenY.value)
-
     el.style.transform = `translate(${screenX.value}px, ${screenY.value}px) scale(${scale.value})`
   })
 }
@@ -318,13 +303,6 @@ interface dropPosInterface {
 const handleDroppedShelf = (pos: dropPosInterface): void => {
   const worldCoords = screenToWorld(pos.dropX, pos.dropY);
 
-  console.log("scr to wrld");
-  console.log(screenToWorld(pos.dropX, pos.dropY));
-
-  console.log("original pos")
-  console.log(pos.dropX, pos.dropY);
-  console.log("grid coords")
-  console.log(worldCoords)
   addShelf(worldCoords.wX, worldCoords.wY);
 }
 
