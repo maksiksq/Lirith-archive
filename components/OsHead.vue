@@ -99,7 +99,7 @@ onMounted(() => {
   <header>
     <div class="header-cont">
       <div class="icon">
-        <img src="https://placehold.co/64" alt="icon" />
+        <img src="../assets/img/lirith_moth.png" alt="icon" />
       </div>
       <div ref="tabsContainer" class="tabs" @wheel.prevent="scrollHorizontally">
         <div ref="tabElems" v-for="tab in tabs" class="tab" @click="switchToTab(tab)" >
