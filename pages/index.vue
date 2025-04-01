@@ -152,8 +152,6 @@ const drawGrid = (): void => {
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.lineWidth = 1
 
-  ctx.beginPath()
-
   // for (let x = offsetX; x < width; x += gridSize.value) {
   //   ctx.moveTo(x, 0)
   //   ctx.lineTo(x, height)
