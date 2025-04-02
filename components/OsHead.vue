@@ -92,7 +92,7 @@ const makeEachTabDraggable = (): void => {
 onMounted(() => {
   makeEachTabDraggable();
 })
-
+//
 </script>
 
 <template>
