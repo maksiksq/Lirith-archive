@@ -93,6 +93,7 @@ onMounted(() => {
   makeEachTabDraggable();
 })
 //
+//
 </script>
 
 <template>
