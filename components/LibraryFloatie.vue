@@ -122,7 +122,17 @@ onMounted(() => {
       <div>&nbsp;tab2</div>
     </div>
     <div class="library">
-      <div v-for="entry in library" ref="entry" class="entry"><p>aaa</p></div>
+      <div v-for="entry in library" ref="entry" class="entry">
+        <template v-if="entry.id == 0">
+          <p>aaa</p>
+        </template>
+        <template v-if="entry.id == 1">
+          <img src="https://placehold.co/50x50" alt="shelf icon">
+        </template>
+        <template v-if="entry.id == 2"></template>
+        <template v-if="entry.id == 3"></template>
+        <template v-if="entry.id == 4"></template>
+      </div>
     </div>
   </div>
 
