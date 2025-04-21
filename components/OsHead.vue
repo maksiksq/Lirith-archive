@@ -82,7 +82,6 @@ const makeEachTabDraggable = (): void => {
             },
             cursorChecker: () => "default"
           })
-
     })
   });
 //
