@@ -50,7 +50,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 <style scoped lang="scss">
 .shelf-wrapper {
   transform-origin: top left;
@@ -86,4 +85,4 @@ onMounted(() => {
 
   }
 }
-</style>
+</style scoped>

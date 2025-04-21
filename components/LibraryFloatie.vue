@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import interact from "interactjs";
 import ShelfText from "~/components/shelf-faces/ShelfText.vue";
+import ShelfSwitch from "~/components/shelf-faces/ShelfSwitch.vue";
+import ShelfIcon from "~/components/shelf-faces/ShelfIcon.vue";
+import ShelfLong from "~/components/shelf-faces/ShelfLong.vue";
+import ShelfLongToDo from "~/components/shelf-faces/ShelfLongToDo.vue";
+import ShelfReminder from "~/components/shelf-faces/ShelfReminder.vue";
+import ShelfTimer from "~/components/shelf-faces/ShelfTimer.vue";
 
 const emit = defineEmits(["droppedShelf"])
 
@@ -125,12 +131,12 @@ onMounted(() => {
     <div class="library">
       <div v-for="entry in library" ref="entry" class="entry lib-shelf-entry">
         <ShelfText v-if="entry.id === 0" />
-        <template v-if="entry.id == 1">
-          <img src="https://placehold.co/50x50" alt="shelf icon">
-        </template>
-        <template v-if="entry.id == 2"></template>
-        <template v-if="entry.id == 3"></template>
-        <template v-if="entry.id == 4"></template>
+        <ShelfIcon v-else-if="entry.id === 1" />
+        <ShelfLong v-else-if="entry.id === 2" />
+        <ShelfLongToDo v-else-if="entry.id === 3"/>
+        <ShelfSwitch v-else-if="entry.id === 4"/>
+        <ShelfReminder v-else-if="entry.id === 5"/>
+        <ShelfTimer v-else-if="entry.id === 6"/>
       </div>
     </div>
   </div>
@@ -182,6 +188,8 @@ onMounted(() => {
       background-color: #161616;
       border-radius: 8px;
       border: 3px solid white;
+
+
     }
   }
 }
