@@ -1,5 +1,6 @@
 # The very official to-do list
 ### Global
+- [ ] Go closed source.
 - [ ] You know, finish the app. The only real current task at hand.
 - [ ] Design structure.
 - [ ] Add tabs, but make shelves expand to tabs ? 

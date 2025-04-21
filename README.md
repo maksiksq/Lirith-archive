@@ -1,1 +1,1 @@
-This is gonna be an app just wait for it
+This is gonna be a app just wait for it.
