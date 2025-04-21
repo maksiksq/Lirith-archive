@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import interact from "interactjs";
+import ShelfText from "~/components/shelf-faces/ShelfText.vue";
 
 const emit = defineEmits(["droppedShelf"])
 
@@ -122,10 +123,8 @@ onMounted(() => {
       <div>&nbsp;tab2</div>
     </div>
     <div class="library">
-      <div v-for="entry in library" ref="entry" class="entry">
-        <template v-if="entry.id == 0">
-          <p>aaa</p>
-        </template>
+      <div v-for="entry in library" ref="entry" class="entry lib-shelf-entry">
+        <ShelfText v-if="entry.id === 0" />
         <template v-if="entry.id == 1">
           <img src="https://placehold.co/50x50" alt="shelf icon">
         </template>
