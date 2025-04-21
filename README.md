@@ -1,1 +1,1 @@
-This is the 
+This is a public archive of an older version of Lirith.
